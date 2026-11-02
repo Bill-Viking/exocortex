@@ -1,0 +1,10 @@
+{
+  "note": "What the installer put on THIS machine. It never leaves this machine (it is on the never-sync list), and the uninstaller reads it to know which seeded files were the program's and which are yours. Shipped empty; install.py fills it in.",
+  "version": 1,
+  "machine": "",
+  "layout": "",
+  "program_version": "",
+  "installed": "",
+  "seeded": [],
+  "jobs": []
+}

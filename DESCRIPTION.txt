@@ -1,0 +1,5 @@
+Exocortex is a plain-file second brain for a person who works across many
+projects, machines, and AI sessions. It keeps a `STATUS.md` per project, an
+opener file that hands the next session its starting point, a mail file for
+messages between sessions, and a tree page that shows where every project
+stands. Every AI session that opens inside it wakes up already oriented.

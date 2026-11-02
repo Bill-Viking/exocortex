@@ -1,0 +1,13 @@
+# Changelog
+
+## 0.1.0 — the first public release
+
+The first public release, installed from this repository.
+
+- Installer (`sync/install.py`): the machine file, a private brain of your own, the seed files, the rendered law book, the heartbeat and the watchers; a dry run first, a way out (`--uninstall`), and `tools/prove-install.py` to check the install against its own gates.
+- The starter law book, folded to the laws the program runs under today, with your own book beside it.
+- The wake sequence, STATUS files, openers, one-writer claims and per-session stamps, mail between sessions and the postman that carries it.
+- The usage meter (`tools/usage.py`): a warning line and a pause line for a flagship's week — a prompt a person typed is never blocked, only an unattended run stops — with the dial check beside it.
+- The board and tree pages, drawn locally, with no font from the network; the wake screen.
+- Windows: installation, the heartbeat and the way out proven on Windows 10 as a stranger; the installer gives the hub and the brain a local git identity when git has none; the self-check runs the gates that are Windows-true today and names the rest in one line.
+- `tools/new-project.py`, to start a tracked project in one command; `tools/spool.py`, to hand or start a lane's next session; `tools/offload.py`, to hand a written job to another mind.

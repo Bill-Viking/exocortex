@@ -1,0 +1,8 @@
+{"lines": {"read": "pass", "asked": "pass", "shown": "pass", "rederived": "fail", "gaps": "pass", "one": "pass"},
+ "rederived": [
+  {"claim": "Sonnet week", "draft": "46", "got": "46", "match": true},
+  {"claim": "Fable week", "draft": "141", "got": "141", "match": true},
+  {"claim": "saving per week", "draft": "95", "got": "95", "match": true},
+  {"claim": "per-run saving", "draft": "1.71", "got": "1.61", "match": false}
+ ],
+ "findings": ["the Fable 5.1 row reads 2.39 a run, not 2.49: 2.39 - 0.78 = 1.61, and 95 / 59 = 1.61"]}

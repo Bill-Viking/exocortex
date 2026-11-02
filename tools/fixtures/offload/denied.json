@@ -1,0 +1,44 @@
+{
+  "report": null,
+  "codex": [
+    {
+      "type": "thread.started",
+      "thread_id": "THREAD_ID"
+    },
+    {
+      "type": "item.completed",
+      "item": {
+        "type": "command_execution",
+        "command": "python proof.py"
+      }
+    },
+    {
+      "type": "item.completed",
+      "item": {
+        "type": "agent_message",
+        "text": "DONE_LINE"
+      }
+    },
+    {
+      "type": "turn.completed",
+      "usage": {
+        "input_tokens": 10000,
+        "cached_input_tokens": 2000,
+        "output_tokens": 1000,
+        "reasoning_output_tokens": 400
+      }
+    }
+  ],
+  "claude": [
+    {
+      "type": "result",
+      "result": "denied: Write",
+      "is_error": true,
+      "permission_denials": [
+        {
+          "tool_name": "Write"
+        }
+      ]
+    }
+  ]
+}

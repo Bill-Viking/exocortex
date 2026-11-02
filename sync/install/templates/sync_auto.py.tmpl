@@ -1,0 +1,29 @@
+"""Exocortex scheduled sync — __MACHINE_TITLE__-local. Runs sync.py sync and logs every run
+so conflict flags surface even with nobody watching. Registered in Task
+Scheduler as "Exocortex Sync" (every 4h from 07:25, before the 07:30 board
+regen so mornings render converged state)."""
+import datetime
+import pathlib
+import subprocess
+
+PYTHON = r"__PYTHON__"
+SYNC_DIR = r"__SYNC_DIR__"
+LOG = pathlib.Path(__file__).with_name("sync-auto.log")
+
+if LOG.exists() and LOG.stat().st_size > 1_000_000:
+    LOG.replace(LOG.with_suffix(".log.old"))
+
+result = subprocess.run(
+    [PYTHON, "sync.py", "sync"],
+    cwd=SYNC_DIR,
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
+    errors="replace",
+    creationflags=subprocess.CREATE_NO_WINDOW,
+)
+with LOG.open("a", encoding="utf-8") as f:
+    f.write(f"\n==== {datetime.datetime.now():%Y-%m-%d %H:%M:%S} ====\n")
+    f.write(result.stdout or "")
+    f.write(result.stderr or "")
+    f.write(f"exit {result.returncode}\n")

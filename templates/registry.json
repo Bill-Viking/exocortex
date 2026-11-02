@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "note": [
+    "This file holds YOUR names. Nothing in it is guessed at: what you leave empty is simply not said.",
+    "owner.name is how the tools address you in prose; leave it empty and they say 'the owner'.",
+    "owner.short is the one word your openers write on their `next:` line to mean 'a person owes the next move'; `owner` and `human` always work.",
+    "owner.aliases are other words that mean you — another spelling, a nickname — matched at word boundaries.",
+    "machines is keyed by the name each machine records in its own machine.json; label is what a surface calls it and mark is its one glyph.",
+    "machines.<name>.hue is that machine's colour on the drawn pages: one CSS colour, or a block with a light and a dark one. Leave it out for no colour.",
+    "machines.<name>.os is macos, windows or linux — what a tool needs to print a command FOR that machine while standing on another one.",
+    "minds lists the minds you work with, in the order you want them shown; a mind you do not list is still drawn when it turns up, named after its own model.",
+    "minds[].vendor is the word a page prints for its house; kind is the transcript family it writes (claude, codex, grok); hue is its colour; show draws its root even when nothing of its is up.",
+    "mind_aliases maps a word a stamp or a model line writes to the mind it means, for a persona you call your own.",
+    "lanes.aliases maps a word you call a lane by to the project folder it means; `hub` means this hub folder itself.",
+    "lanes.hub_folders names the folders that ARE the hub, so a note addressed to one of them is read as a note to the hub.",
+    "lanes.hub_key is the name the hub's own memories are filed under when that is not the hub folder's current name — a folder that was renamed keeps its old name in the record.",
+    "lanes.families maps the start of a project's name to the family it belongs to, so kin are drawn together.",
+    "lanes.groups maps a word to the column a journal line or a law belongs in on the tree's sky; lanes.not_groups are words that are never a lane.",
+    "lanes.mentions maps a word to the project it mentions, so a memory that names another project draws a line to it.",
+    "surface.caption is the one line under the tree's sky. Empty means no line at all, not an empty one.",
+    "surface.base_scheme names the page's own light and dark token sets — the ids they are saved under and the word the picker shows. Empty means they are called `base`."
+  ],
+  "owner": {
+    "name": "",
+    "short": "",
+    "aliases": []
+  },
+  "machines": {},
+  "minds": [],
+  "mind_aliases": {},
+  "lanes": {
+    "aliases": {},
+    "hub_folders": [],
+    "hub_key": "",
+    "families": {},
+    "groups": {},
+    "not_groups": [],
+    "mentions": {}
+  },
+  "surface": {
+    "caption": "",
+    "base_scheme": { "dark_id": "", "light_id": "", "label": "" }
+  }
+}

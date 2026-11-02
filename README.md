@@ -1,0 +1,140 @@
+# Exocortex
+
+<img src="icon.png" alt="" width="96" height="96">
+
+*Not an assistant and not a memory database: the shared record your AI sessions work
+in, across projects, machines and vendors.*
+
+Exocortex is a plain-file second brain for a person who works across many
+projects, machines, and AI sessions. It keeps a `STATUS.md` per project, an
+opener file that hands the next session its starting point, a mail file for
+messages between sessions, and a tree page that shows where every project
+stands. Every AI session that opens inside it wakes up already oriented.
+
+## How it compares
+
+| kind | examples | what it holds | sessions and machines | Exocortex's focus |
+|---|---|---|---|---|
+| personal AI assistants | OpenClaw, Hermes Agent | Acts on your behalf: messages you, remembers things, and runs tasks. | Chat or terminal access; OpenClaw supports multiple workspaces. | Project status, next-session openers, and writing claims. |
+| markdown brains for agents | agentBrain, Open Second Brain | Shared Markdown memory that supported agents read and write. | Shared files; agentBrain adds sync and opt-in messaging. | STATUS, openers, mail, writing claims, and a project tree. |
+| memory tools and platforms | mem0, Letta (also Basic Memory) | Persistent memory via SDKs, agents, or Markdown and MCP. | Local or hosted; cloud options span computers. | A plain-file law book and project coordination. |
+| agent instruction files | CLAUDE.md, AGENTS.md | Instructions read at the start of a session, per project or per user. | AGENTS.md spans tools; files travel with a repo. | STATUS, mail, claims, and a tree across machines and vendors. |
+
+OpenClaw acts for you: it runs on your own machine and answers you in your chat apps.
+Exocortex is not an assistant; it is the shared record your coding-agent sessions work
+in.
+
+For shared agent memory, consider agentBrain or Open Second Brain. Exocortex focuses
+on project status, session handoffs, writing claims, and a tree across projects.
+
+## What it needs
+
+- Python 3.9 or later
+- git
+- macOS or Windows
+- A private git remote for your own brain (never a public one)
+- A coding-agent session, such as Claude Code, Codex, or Grok
+
+## Install
+
+Clone the program, then run the installer from the cloned folder (command
+examples use `python3`; on Windows use `python` in its place):
+
+    python3 sync/install.py
+
+The installer offers three ways to a brain: join an existing one by URL or
+path, make a new one that stays only on this disk, or make a new one and
+push it to a remote you name. Its fourth step renders the law book for
+this machine into `~/.claude/exocortex-laws.md`, and writes
+`~/.claude/CLAUDE.md` only when that file does not already exist yet — a
+file of yours is never edited. The first run also draws the board and the
+tree.
+
+The program lives in the folder you cloned; that folder is your hub, where
+your projects' state, your mail and your claims are written. Your brain — the
+folder you name at install, `~/exocortex-brain` unless you say otherwise — is
+your own private repository: the heartbeat carries the hub's state into it,
+and none of it ever rides the public history.
+
+## First run
+
+Open the board or the tree page. The tree starts with one tile: the hub
+itself. Add your first tracked project with:
+
+    python3 tools/new-project.py <name>
+
+The new project gets a `STATUS.md`, an opener, and, when git is on your
+machine, its own repository with one commit. Redrawing the board or the
+tree picks it up.
+
+## Every day
+
+Open a session in your hub folder and type `hub`. That session is your front
+desk: it reads the record, opens the tree, and hands you each lane's next step.
+
+Each session begins with a short wake sequence: check the real clock, pull
+the brain, check whether another session already holds the project's
+writing claim, stamp itself in, then read `STATUS.md`, the opener, and any
+mail addressed to it. During the day, sessions send and read short messages
+with `tools/mail.py`, and hold a claim through `tools/claim.py` so only one
+session writes a given project or lane at a time. The tree page always
+shows where each project stands and whose move is next.
+
+## What it touches on your machine
+
+- `~/.claude/CLAUDE.md` — only if that file is absent
+- `~/.claude/exocortex-laws.md` — written by the installer, and re-rendered
+  when the shipped law book changes
+- The four shipped skills (desk, focus, sweep-sessions, sync), copied into
+  `~/.claude/skills/` when absent
+- Background jobs — launchd agents on macOS, scheduled tasks on Windows —
+  named in `sync/install/jobs.json`
+- The hub folder (the clone) and the brain folder you chose at install, with
+  `machine.json` naming your roots
+- `hygiene-settings.json` and one `INSTALL-WATCHERS-<machine>.md` sheet in
+  the hub; `AGENTS.md` in your Codex folder when the machine records one and
+  the file is absent
+- On Windows, a task-registration script written to the system's temporary
+  folder
+
+Nothing goes anywhere but the private git remote you choose for your own
+brain; the one call outside it is a read of the GitHub API before the first
+push, to confirm that remote is private. The pages it draws load no font
+from the network.
+
+## Prove your install
+
+    python3 tools/prove-install.py
+
+This runs every gate the program ships against your own install, from your
+own `tools/` folder, and prints one table: what each gate checked, how many
+checks passed, how many failed, and how long it took.
+
+On Windows the table runs the gates that are Windows-true today and says, in
+one line above it, which are not yet run there and why; the install, the
+heartbeat and the uninstall were proven on Windows 10 by hand. Setting
+`EXO_PROVE_EVERYWHERE=1` runs them anyway.
+
+## Uninstall
+
+    python3 sync/install.py --uninstall
+
+Removes only what the installer made, and nothing else — never your hub
+folder, your projects, or a file of yours. To come back later, run the
+installer again from that same folder:
+
+    python3 sync/install.py --defaults
+
+For a fresh installation, clone this repository into a new, empty folder and
+run the installer there. Keep your existing hub and brain until you have
+verified the new installation.
+
+## Licence
+
+Code is licensed under Apache License 2.0; see LICENSE. The licence does not
+grant rights to this project's trade names or wordmark beyond the attribution
+uses permitted by section 6.
+
+## Repository
+
+https://github.com/Bill-Viking/exocortex

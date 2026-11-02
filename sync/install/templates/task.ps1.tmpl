@@ -1,0 +1,99 @@
+<#
+  Exocortex install - Windows scheduled-task driver.
+
+  GENERATED from install/templates/task.ps1.tmpl by install.py. Edit the
+  TEMPLATE in the engine repo, never a generated copy.
+
+  One action per call: short, prints one line (or one JSON object) and stops
+  at the first failure.
+
+    -Action read       -TaskName "<name>"                    read a task back, as JSON
+    -Action register   -Job <id> [-TaskName "<name>"] [-Force]   create or repair from the spec
+    -Action unregister -TaskName "<name>"                    remove a task
+
+  -TaskName on 'register' overrides the spec's name: that is how install.py
+  dry-runs the generated script against a dummy task before it is trusted.
+#>
+param(
+  [Parameter(Mandatory = $true)]
+  [ValidateSet('read', 'register', 'unregister')]
+  [string]$Action,
+  [string]$Job = '',
+  [string]$TaskName = '',
+  [switch]$Force
+)
+
+$ErrorActionPreference = 'Stop'
+
+$specJson = @'
+__SPEC_JSON__
+'@
+$spec = $specJson | ConvertFrom-Json
+
+function Get-JobSpec([string]$id) {
+  foreach ($j in $spec.jobs) { if ($j.id -eq $id) { return $j } }
+  throw "no job '$id' in the embedded spec"
+}
+
+function Read-TaskState([string]$name) {
+  $state = [ordered]@{
+    found = $false; execute = ''; arguments = ''; workdir = '';
+    triggerKind = ''; startTimeOfDay = ''; interval = ''; duration = '';
+    daysInterval = ''; enabled = ''; logonType = ''; runLevel = ''
+  }
+  $t = Get-ScheduledTask -TaskName $name -ErrorAction SilentlyContinue
+  if ($null -eq $t) { return $state }
+  $state.found = $true
+  $a = @($t.Actions)[0]
+  if ($null -ne $a) {
+    $state.execute = [string]$a.Execute
+    $state.arguments = [string]$a.Arguments
+    $state.workdir = [string]$a.WorkingDirectory
+  }
+  $tr = @($t.Triggers)[0]
+  if ($null -ne $tr) {
+    $state.triggerKind = [string]$tr.CimClass.CimClassName
+    $sb = [string]$tr.StartBoundary
+    if ($sb -match 'T(\d\d:\d\d)') { $state.startTimeOfDay = $matches[1] }
+    if ($null -ne $tr.Repetition) {
+      $state.interval = [string]$tr.Repetition.Interval
+      $state.duration = [string]$tr.Repetition.Duration
+    }
+    if ($null -ne $tr.PSObject.Properties['DaysInterval']) {
+      $state.daysInterval = [string]$tr.DaysInterval
+    }
+    $state.enabled = [string]$tr.Enabled
+  }
+  if ($null -ne $t.Principal) {
+    $state.logonType = [string]$t.Principal.LogonType
+    $state.runLevel = [string]$t.Principal.RunLevel
+  }
+  return $state
+}
+
+switch ($Action) {
+  'read' {
+    if ($TaskName -eq '') { throw '-Action read needs -TaskName' }
+    (Read-TaskState $TaskName) | ConvertTo-Json -Compress
+  }
+  'register' {
+    if ($Job -eq '') { throw '-Action register needs -Job' }
+    $j = Get-JobSpec $Job
+    $name = $TaskName
+    if ($name -eq '') { $name = [string]$j.task_name }
+    $me = [Security.Principal.WindowsIdentity]::GetCurrent().Name
+    $xml = ([string]$j.xml) -replace '%USERID%', $me
+    if ($Force) {
+      Register-ScheduledTask -TaskName $name -Xml $xml -Force | Out-Null
+    }
+    else {
+      Register-ScheduledTask -TaskName $name -Xml $xml | Out-Null
+    }
+    Write-Output "REGISTERED $name"
+  }
+  'unregister' {
+    if ($TaskName -eq '') { throw '-Action unregister needs -TaskName' }
+    Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false
+    Write-Output "UNREGISTERED $TaskName"
+  }
+}

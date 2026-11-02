@@ -1,0 +1,130 @@
+{
+  "description": "The units every install has. The program ships this file; it is read first and your own manifest is merged over it. Roots are named by KEY (orchestrator, claude, codex, grok, projects, home) and never by a path, so the same file is right on every machine. Your manifest may add entries and extend an entry's exclude and append_only lists; it cannot remove an entry from here (that is reported and ignored).",
+  "version": 1,
+  "entries": [
+    {
+      "id": "orchestrator",
+      "kind": "tree",
+      "live": {
+        "root": "orchestrator",
+        "rel": ""
+      },
+      "repo": "orchestrator",
+      "append_only": [
+        "INBOX.md",
+        "dossier/TAUGHT.md",
+        "watchers/*-PROPOSALS-*.md"
+      ],
+      "exclude": [
+        "board*.html",
+        "GETTING-GOING.md",
+        "sessions.json",
+        "sessions-*.json",
+        "*.log",
+        ".DS_Store",
+        ".git/**",
+        "tree.html",
+        "improvements.html",
+        "improvements-state.json",
+        "carry/cache-*.json",
+        "brain-index.json",
+        ".claude/*.lock",
+        ".claude/settings.local.json"
+      ],
+      "note": "The hub folder itself. Pages a machine draws for itself carry that machine's own paths, so they are generated locally rather than carried. append_only names the files two machines only ever ADD lines to: a both-sides change there is merged line by line instead of being flagged. Every other file, STATUS.md included, still conflicts and is left untouched."
+    },
+    {
+      "id": "sessions",
+      "kind": "file",
+      "live": {
+        "root": "orchestrator",
+        "rel": "sessions.json"
+      },
+      "repo": "orchestrator/sessions-{machine}.json",
+      "per_machine": true,
+      "note": "Sessions are machine-local and account-local: each machine owns its own file and its own board."
+    },
+    {
+      "id": "claude-md",
+      "kind": "file",
+      "live": {
+        "root": "claude",
+        "rel": "CLAUDE.md"
+      },
+      "repo": "claude-home/CLAUDE.md"
+    },
+    {
+      "id": "skills",
+      "kind": "tree",
+      "live": {
+        "root": "claude",
+        "rel": "skills"
+      },
+      "repo": "claude-home/skills",
+      "exclude": [
+        ".DS_Store",
+        ".git/**"
+      ]
+    },
+    {
+      "id": "keybindings",
+      "kind": "file",
+      "live": {
+        "root": "claude",
+        "rel": "keybindings.json"
+      },
+      "repo": "claude-home/keybindings.json",
+      "optional": true,
+      "note": "Path-free, so it is safe to carry."
+    },
+    {
+      "id": "settings-reference",
+      "kind": "file",
+      "live": {
+        "root": "claude",
+        "rel": "settings.json"
+      },
+      "repo": "claude-home/settings.reference.json",
+      "mode": "report-only",
+      "note": "Drift is shown by `sync status` and NEVER applied: permissions, hook paths and models are machine-specific."
+    },
+    {
+      "id": "codex-agents-md",
+      "kind": "file",
+      "live": {
+        "root": "codex",
+        "rel": "AGENTS.md"
+      },
+      "repo": "codex-home/AGENTS.md",
+      "optional": true,
+      "note": "One vendor's global rules file. It needs a `codex` root in machine.json; without one the entry is skipped and says so."
+    },
+    {
+      "id": "grok-agents-md",
+      "kind": "file",
+      "live": {
+        "root": "grok",
+        "rel": "AGENTS.md"
+      },
+      "repo": "grok-home/AGENTS.md",
+      "optional": true,
+      "note": "One vendor's routing instructions only. Credentials, native memory, configuration and raw sessions stay local."
+    }
+  ],
+  "memories": {
+    "repo_base": "claude-home/memories",
+    "exclude": [
+      ".DS_Store"
+    ],
+    "map": {},
+    "note": "<claude root>/projects/<munged>/memory/ <-> claude-home/memories/<logical>/. 'root' + 'rel' let the other machine re-munge to its own paths from its own roots; 'munged' records what each machine calls the folder. Only project folders that HAVE a memory/ subfolder are carried. The map itself is yours: it lives in your manifest, written by the tool, never by hand."
+  },
+  "never_synced": [
+    "credentials, tokens, API keys, keychains or .credentials of any kind",
+    "session transcripts, session-env, shell snapshots, telemetry and caches",
+    "machine.json, installed.json and .sync-state.json (this machine's identity and bookkeeping)",
+    "the pages each machine draws for itself (board*.html, tree.html, improvements.html) — regenerate them locally",
+    "your project repositories themselves — each travels by its own git remote; `sync status` only names the ones with unpushed work",
+    "<claude root>/settings.json (copied one-way to settings.reference.json for comparison, never applied)"
+  ]
+}

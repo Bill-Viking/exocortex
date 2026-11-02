@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "note": [
+    "The exocortex HEARTBEAT: one description of the three jobs, rendered per OS.",
+    "Nothing about any one fleet is written here: {hub}, {home}, {python},",
+    "{pythonw}, {syncdir}, {claude} and {machine} are filled at run time from",
+    "machine.json and sys.executable. A Windows rendering is a scheduled task",
+    "(Execute, Arguments, WorkingDirectory, trigger kind + interval/time); a",
+    "macOS rendering is a launchd agent (label, program, working directory,",
+    "schedule, log), compared by meaning, never by bytes.",
+    "macOS schedule kinds: interval (seconds) or calendar (times, HH:MM, one or",
+    "many); run_at_load applies to either. trigger.at = null means the time of",
+    "day is not part of the identity of the job (an every-N-minutes repeater),",
+    "so install.py neither pins nor compares it.",
+    "The postman job executes {pythonw} DIRECTLY on Windows, exactly as",
+    "the sync job does, because it fires 1,440 times a day and no console window",
+    "may ever flash; its own bounded log is postman.log inside POST DIR, so the",
+    "task needs no redirection and no wrapper. PT1M is Task Scheduler's smallest",
+    "repetition interval, and 60 seconds is launchd's StartInterval."
+  ],
+  "jobs": [
+    {
+      "id": "pulse",
+      "what": "the heartbeat, every 5 minutes: pull the brain, sense live sessions, redraw the board and the tree, push",
+      "windows": {
+        "task_name": "Exocortex Pulse",
+        "execute": "powershell.exe",
+        "arguments": "-NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -Command \"[Console]::OutputEncoding=[Text.Encoding]::UTF8; $env:PYTHONUTF8='1'; & '{python}' '{hub}\\tools\\pulse.py' 2>&1 | Out-File -Append -Encoding utf8 '{home}\\exocortex-pulse.log'\"",
+        "workdir": "{hub}",
+        "trigger": {
+          "kind": "time",
+          "at": null,
+          "interval": "PT5M",
+          "duration": null
+        }
+      },
+      "macos": {
+        "label": "com.exocortex.pulse",
+        "program": [
+          "{python}",
+          "{hub}/tools/pulse.py"
+        ],
+        "workdir": null,
+        "log": "{home}/Library/Logs/exocortex-pulse.log",
+        "schedule": {
+          "kind": "interval",
+          "seconds": 300,
+          "run_at_load": true
+        }
+      }
+    },
+    {
+      "id": "sync",
+      "what": "the brain sync, six times a day: 07:25 then every 4 hours (03:25 07:25 11:25 15:25 19:25 23:25), logged so conflict flags surface unwatched",
+      "windows": {
+        "task_name": "Exocortex Sync",
+        "execute": "{pythonw}",
+        "arguments": "\"{home}\\exocortex-tasks\\sync_auto.py\"",
+        "workdir": "{home}\\exocortex-tasks",
+        "wrapper": {
+          "template": "sync_auto.py.tmpl",
+          "path": "{home}\\exocortex-tasks\\sync_auto.py"
+        },
+        "trigger": {
+          "kind": "time",
+          "at": "07:25",
+          "interval": "PT4H",
+          "duration": "P3650D"
+        }
+      },
+      "macos": {
+        "label": "com.exocortex.sync",
+        "program": [
+          "/bin/sh",
+          "-c",
+          "echo \"==== $(date '+%Y-%m-%d %H:%M:%S') ====\"; exec {python} sync.py sync"
+        ],
+        "workdir": "{syncdir}",
+        "log": "{home}/exocortex-tasks/sync-auto.log",
+        "schedule": {
+          "kind": "calendar",
+          "times": [
+            "03:25",
+            "07:25",
+            "11:25",
+            "15:25",
+            "19:25",
+            "23:25"
+          ],
+          "run_at_load": true
+        }
+      }
+    },
+    {
+      "id": "postman",
+      "what": "the mail, every minute: route each letter to the session that holds its lane, tell the sender when one is not read",
+      "windows": {
+        "task_name": "Exocortex Postman",
+        "execute": "{pythonw}",
+        "arguments": "\"{hub}\\tools\\postman.py\" --pass --quiet",
+        "workdir": "{hub}",
+        "trigger": {
+          "kind": "time",
+          "at": null,
+          "interval": "PT1M",
+          "duration": null
+        }
+      },
+      "macos": {
+        "label": "com.exocortex.postman",
+        "program": [
+          "{python}",
+          "{hub}/tools/postman.py",
+          "--pass",
+          "--quiet"
+        ],
+        "workdir": "{hub}",
+        "log": "{home}/Library/Logs/exocortex-postman.log",
+        "schedule": {
+          "kind": "interval",
+          "seconds": 60,
+          "run_at_load": true
+        }
+      }
+    },
+    {
+      "id": "board",
+      "what": "the daily board and tree regeneration, 07:30, five minutes after the morning sync",
+      "windows": {
+        "task_name": "Exocortex Board Regen",
+        "execute": "{pythonw}",
+        "arguments": "\"{hub}\\orchestrator.py\"",
+        "workdir": "{hub}",
+        "trigger": {
+          "kind": "daily",
+          "at": "07:30"
+        }
+      },
+      "macos": {
+        "label": "com.exocortex.regen",
+        "program": [
+          "{python}",
+          "{hub}/orchestrator.py"
+        ],
+        "workdir": "{hub}",
+        "log": "{home}/exocortex-tasks/regen.log",
+        "schedule": {
+          "kind": "calendar",
+          "times": [
+            "07:30"
+          ],
+          "run_at_load": false
+        }
+      }
+    }
+  ]
+}

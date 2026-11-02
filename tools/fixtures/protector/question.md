@@ -1,0 +1,1 @@
+A routine week is 59 runs. From the table: the week's cost on Sonnet 5 and on Fable 5.1; the saving per week and per run; and which mind the routine-model rule puts a routine on. Give each number with the row it came from.

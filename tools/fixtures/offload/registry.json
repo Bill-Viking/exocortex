@@ -1,0 +1,205 @@
+{
+  "version": 1,
+  "owner": {
+    "name": "Wren"
+  },
+  "machines": {
+    "north": {
+      "label": "North",
+      "os": "macos"
+    }
+  },
+  "mind_aliases": {
+    "GPT": "ASTRA",
+    "CODEX": "ASTRA"
+  },
+  "minds": [
+    {
+      "name": "SONNET",
+      "kind": "claude",
+      "vendor": "Anthropic",
+      "headless": {
+        "exe": "fixture-claude",
+        "candidates": {
+          "macos": [
+            "${OFFLOAD_FIXTURES}/stub-claude.py"
+          ],
+          "windows": [
+            "${OFFLOAD_FIXTURES}/stub-claude.py"
+          ]
+        },
+        "install": {
+          "macos": "fixture install claude",
+          "windows": "fixture install claude"
+        }
+      },
+      "cli": "sonnet",
+      "app_id": "claude-sonnet-5-5",
+      "tier": "cheap",
+      "offload_default_for": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "OPUS",
+      "kind": "claude",
+      "vendor": "Anthropic",
+      "headless": {
+        "exe": "fixture-claude",
+        "candidates": {
+          "macos": [
+            "${OFFLOAD_FIXTURES}/stub-claude.py"
+          ],
+          "windows": [
+            "${OFFLOAD_FIXTURES}/stub-claude.py"
+          ]
+        },
+        "install": {
+          "macos": "fixture install claude",
+          "windows": "fixture install claude"
+        }
+      },
+      "cli": "opus",
+      "app_id": "claude-opus-5-5",
+      "tier": "mechanical"
+    },
+    {
+      "name": "HAIKU",
+      "kind": "claude",
+      "vendor": "Anthropic",
+      "headless": {
+        "exe": "fixture-claude",
+        "candidates": {
+          "macos": [
+            "${OFFLOAD_FIXTURES}/stub-claude.py"
+          ],
+          "windows": [
+            "${OFFLOAD_FIXTURES}/stub-claude.py"
+          ]
+        },
+        "install": {
+          "macos": "fixture install claude",
+          "windows": "fixture install claude"
+        }
+      },
+      "cli": "haiku",
+      "app_id": "claude-haiku-5-5",
+      "tier": "cheap",
+      "offload_default_for": [
+        "reading"
+      ]
+    },
+    {
+      "name": "FABLE",
+      "kind": "claude",
+      "vendor": "Anthropic",
+      "headless": {
+        "exe": "fixture-claude",
+        "candidates": {
+          "macos": [
+            "${OFFLOAD_FIXTURES}/stub-claude.py"
+          ],
+          "windows": [
+            "${OFFLOAD_FIXTURES}/stub-claude.py"
+          ]
+        },
+        "install": {
+          "macos": "fixture install claude",
+          "windows": "fixture install claude"
+        }
+      },
+      "cli": "fable",
+      "app_id": "claude-fable-5-5",
+      "tier": "flagship"
+    },
+    {
+      "name": "ASTRA",
+      "kind": "codex",
+      "vendor": "OpenAI",
+      "headless": {
+        "exe": "fixture-codex",
+        "candidates": {
+          "macos": [
+            "${OFFLOAD_FIXTURES}/stub-codex.py"
+          ],
+          "windows": [
+            "${OFFLOAD_FIXTURES}/stub-codex.py"
+          ]
+        },
+        "install": {
+          "macos": "fixture install codex",
+          "windows": "fixture install codex"
+        }
+      },
+      "models": {
+        "flagship": "gpt-6-astra",
+        "mechanical": "gpt-6.1-sol",
+        "cheap": "gpt-6-luna"
+      },
+      "tier": "flagship",
+      "cheap_effort": "medium",
+      "models_read": "2026-10-23 ~/.codex/models_cache.json"
+    },
+    {
+      "name": "SOL",
+      "kind": "codex",
+      "vendor": "OpenAI",
+      "headless": {
+        "exe": "fixture-codex",
+        "candidates": {
+          "macos": [
+            "${OFFLOAD_FIXTURES}/stub-codex.py"
+          ],
+          "windows": [
+            "${OFFLOAD_FIXTURES}/stub-codex.py"
+          ]
+        },
+        "install": {
+          "macos": "fixture install codex",
+          "windows": "fixture install codex"
+        }
+      },
+      "models": {
+        "flagship": "gpt-6-astra",
+        "mechanical": "gpt-6.1-sol",
+        "cheap": "gpt-6-luna"
+      },
+      "tier": "mechanical",
+      "cheap_effort": "low",
+      "show": true
+    },
+    {
+      "name": "LUNA",
+      "tier": "cheap",
+      "models": {
+        "flagship": "gpt-6-astra",
+        "mechanical": "gpt-6.1-sol",
+        "cheap": "gpt-6-luna"
+      },
+      "cheap_effort": "medium",
+      "kind": "codex",
+      "vendor": "OpenAI",
+      "show": true,
+      "hue": {
+        "light": "#7a5c00",
+        "dark": "#d9b25c"
+      },
+      "headless": {
+        "exe": "fixture-codex",
+        "candidates": {
+          "macos": [
+            "${OFFLOAD_FIXTURES}/stub-codex.py"
+          ],
+          "windows": [
+            "${OFFLOAD_FIXTURES}/stub-codex.py"
+          ]
+        },
+        "install": {
+          "macos": "fixture install codex",
+          "windows": "fixture install codex"
+        }
+      },
+      "cli_model": "gpt-6-luna"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+# The hub folder holds the program and your own notes in one place.
+# This file is the ONE rule that says which is which: what git ignores is
+# yours and travels by your private brain sync; what git tracks is the
+# program and travels by git.
+#
+# DENY BY DEFAULT. Everything at the top level is ignored, and the program's
+# own names are named back in, one line each. A new note of yours anywhere in
+# this folder is yours without anyone remembering to list it.
+#
+# It is installed as .gitignore. Keep it tracked and unmodified: the sync tool
+# checks that before it trusts the partition, and stops the hub's sync in one
+# plain sentence when it cannot.
+
+/*
+
+!/.gitattributes
+!/.github/
+!/.gitignore
+!/CHANGELOG.md
+!/CODE_OF_CONDUCT.md
+!/CONTRIBUTING.md
+!/DESCRIPTION.txt
+!/LICENSE
+!/NOTICE
+!/README.md
+!/SECURITY.md
+!/VERSION
+!/docs/
+!/evidence.py
+!/fonts/
+!/grok/
+!/icon.png
+!/laws/
+!/licenses/
+!/openai/
+!/orchestrator.py
+!/semantic-rules.json
+!/skin_v2.py
+!/skin_v2_fonts.css
+!/sync/
+!/templates/
+!/tests/
+!/tools/
+
+# Caches every machine makes for itself, inside the program's folders too.
+# These come after the whitelist on purpose, so they win over it.
+__pycache__/
+*.pyc

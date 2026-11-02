@@ -1,0 +1,9 @@
+{
+  "note": "Shipped with the program. The installer copied this file here once, when there was no guide-cards.json, and will never touch it again: from now on it is yours. An update does not overwrite it.",
+  "schema_version": "1.0",
+  "description": "The curated half of the restart guide. Openers, tiers, lane rules and standing cautions — the judgment a generator cannot invent. The board fuses these with live data (this machine's paths, the next action read from each STATUS.md, portability flags, INBOX items) every time it is drawn. Keep it portable: no absolute paths, and a machine named only as an identity. Any session may update its own project's card when it closes; bump that card's `curated` date when you do. Shipped empty — until you write a card, every project gets the generic opener.",
+  "morning_ritual": [],
+  "house_rules": [],
+  "tails": [],
+  "cards": []
+}

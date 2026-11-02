@@ -1,0 +1,78 @@
+{
+  "report": "done",
+  "codex": [
+    {
+      "type": "thread.started",
+      "thread_id": "THREAD_ID"
+    },
+    {
+      "type": "item.completed",
+      "item": {
+        "type": "command_execution",
+        "command": "python proof.py"
+      }
+    },
+    {
+      "type": "item.completed",
+      "item": {
+        "type": "agent_message",
+        "text": "DONE_LINE"
+      }
+    },
+    {
+      "type": "turn.completed",
+      "usage": {
+        "input_tokens": 10000,
+        "cached_input_tokens": 2000,
+        "output_tokens": 1000,
+        "reasoning_output_tokens": 400
+      }
+    }
+  ],
+  "claude": [
+    {
+      "type": "assistant",
+      "message": {
+        "content": [
+          {
+            "type": "tool_use",
+            "name": "Write",
+            "input": {
+              "file_path": "report.md"
+            }
+          },
+          {
+            "type": "text",
+            "text": "DONE_LINE"
+          }
+        ]
+      }
+    },
+    {
+      "type": "result",
+      "subtype": "success",
+      "result": "fixture CLI error text",
+      "is_error": true,
+      "usage": {
+        "input_tokens": 8000,
+        "cache_creation_input_tokens": 500,
+        "cache_read_input_tokens": 2000,
+        "output_tokens": 1000
+      },
+      "modelUsage": {
+        "claude-sonnet-5-5": {
+          "outputTokens": 1000
+        }
+      },
+      "total_cost_usd": 0.0421,
+      "permission_denials": [
+        {
+          "tool_name": "Write",
+          "tool_input": {
+            "file_path": "REPORT_PATH"
+          }
+        }
+      ]
+    }
+  ]
+}
