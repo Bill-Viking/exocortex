@@ -1,5 +1,7 @@
-Exocortex is a plain-file second brain for a person who works across many
-projects, machines, and AI sessions. It keeps a `STATUS.md` per project, an
-opener file that hands the next session its starting point, a mail file for
-messages between sessions, and a tree page that shows where every project
-stands. Every AI session that opens inside it wakes up already oriented.
+Exocortex is a folder of plain files that your AI sessions read before they
+start and write before they stop. The record belongs to you, not to a model
+or a vendor: switch from Claude Code to Codex, or from one machine to
+another, and the next session wakes up already oriented, reading what the
+last one wrote. Every project you have is on one page, with whose move is
+next. And nothing irreversible happens without your own hand: you hold the
+key.

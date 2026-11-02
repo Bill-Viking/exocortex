@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Two roads that never cross</title>
+  <desc id="desc">Two roads separated by the solid tracked .gitignore wall. The public program enters the hub by git clone or pull; personal notes, status and mail leave only for the private repository by the heartbeat. One hub folder spans both sides, but no arrow crosses the wall. Project work uses each project’s repository, heavy or never-cloud material uses an external drive, and machine-personal files never sync.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9 Z" fill="#1d1d1b" />
+    </marker>
+    <marker id="amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9 Z" fill="#ffb000" />
+    </marker>
+  </defs>
+  <rect width="1200" height="900" fill="#ffffff" />
+  <text x="60" y="66" fill="#1d1d1b" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="700" text-anchor="start">Your record stays yours</text>
+  <path d="M60 82 H112" fill="none" stroke="#c4262e" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="119" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="22" font-weight="400" text-anchor="start">Figure 1. Two roads that never cross</text>
+  <path d="M60 132 H1140" fill="none" stroke="#c4262e" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="600" y="880" fill="#c4262e" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="23" font-weight="400" text-anchor="middle">Your record stays yours</text>
+  <text x="1140" y="880" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="end">1</text>
+  <path d="M420 754 V555 Q420 545 430 545 H482 L502 530 H646 L666 545 H1140 Q1152 545 1152 557 V742 Q1152 754 1140 754 Z" fill="none" stroke="#1d1d1b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="510" y="577" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="700" text-anchor="start">THE HUB FOLDER</text>
+  <rect x="442" y="193" width="310" height="125" rx="9" fill="#eeeeec" stroke="#666662" stroke-width="1.2" />
+  <text x="460" y="229" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">THE PUBLIC REPOSITORY</text>
+  <text x="460" y="260" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">the program</text>
+  <text x="460" y="291" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">anyone may read it</text>
+  <rect x="818" y="193" width="310" height="125" rx="9" fill="#ffb000" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="837" y="229" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">YOUR PRIVATE REPOSITORY</text>
+  <text x="837" y="263" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">your brain</text>
+  <path d="M786 166 V754" fill="none" stroke="#1d1d1b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="177" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="700" text-anchor="start">The tracked .gitignore:</text>
+  <path d="M290 170 H786" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="210" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">a wall, not a filter.</text>
+  <text x="60" y="237" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">It denies everything by default</text>
+  <text x="60" y="264" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">and allows only the program’s</text>
+  <text x="60" y="291" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">own file names through.</text>
+  <path d="M467 318 V598 H621 V618" fill="none" stroke="#666662" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" />
+  <text x="494" y="407" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">git clone / pull ·</text>
+  <text x="494" y="436" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">the program comes in</text>
+  <path d="M1080 668 H1104 V318" fill="none" stroke="#ffb000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#amber)" />
+  <text x="818" y="407" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">the heartbeat ·</text>
+  <text x="818" y="436" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">your record goes out,</text>
+  <text x="818" y="465" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">only here</text>
+  <rect x="490" y="618" width="262" height="103" rx="9" fill="#eeeeec" stroke="#666662" stroke-width="1.2" />
+  <text x="512" y="659" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="23" font-weight="400" text-anchor="start">THE PROGRAM</text>
+  <text x="512" y="693" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">tracked by git</text>
+  <rect x="818" y="618" width="262" height="103" rx="9" fill="#eeeeec" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="837" y="650" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="23" font-weight="400" text-anchor="start">YOUR NOTES,</text>
+  <text x="837" y="677" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="23" font-weight="400" text-anchor="start">STATUS, MAIL</text>
+  <text x="837" y="704" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">ignored by git</text>
+  <text x="60" y="559" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="700" text-anchor="start">No road leads</text>
+  <path d="M204 552 H420" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="588" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">from your side to the</text>
+  <text x="60" y="615" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">public repository.</text>
+  <text x="60" y="680" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="start">Each project’s own repository</text>
+  <text x="60" y="703" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="start">carries that project’s work.</text>
+  <text x="60" y="743" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="start">Heavy or never-cloud material</text>
+  <text x="60" y="766" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="start">rides an external drive.</text>
+  <text x="60" y="806" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="start">Machine-personal files never</text>
+  <text x="60" y="829" fill="#666662" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="start">sync, on purpose.</text>
+</svg>

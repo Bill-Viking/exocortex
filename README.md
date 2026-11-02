@@ -2,35 +2,32 @@
 
 <img src="icon.png" alt="" width="96" height="96">
 
-*Not an assistant and not a memory database: the shared record your AI sessions work
-in, across projects, machines and vendors.*
+Exocortex is a folder of plain files that your AI sessions read before they
+start and write before they stop. The record belongs to you, not to a model
+or a vendor: switch from Claude Code to Codex, or from one machine to
+another, and the next session wakes up already oriented, reading what the
+last one wrote. Every project you have is on one page, with whose move is
+next. And nothing irreversible happens without your own hand: you hold the
+key.
 
-Exocortex is a plain-file second brain for a person who works across many
-projects, machines, and AI sessions. It keeps a `STATUS.md` per project, an
-opener file that hands the next session its starting point, a mail file for
-messages between sessions, and a tree page that shows where every project
-stands. Every AI session that opens inside it wakes up already oriented.
+You work across projects, machines and models. A conversation gets long, a
+session ends, you switch computers, and you become the one who remembers
+where everything stands and explains it again. Exocortex keeps that record
+outside any one conversation.
 
-## How it compares
+What is in the folder:
 
-| kind | examples | what it holds | sessions and machines | Exocortex's focus |
-|---|---|---|---|---|
-| personal AI assistants | OpenClaw, Hermes Agent | Acts on your behalf: messages you, remembers things, and runs tasks. | Chat or terminal access; OpenClaw supports multiple workspaces. | Project status, next-session openers, and writing claims. |
-| markdown brains for agents | agentBrain, Open Second Brain | Shared Markdown memory that supported agents read and write. | Shared files; agentBrain adds sync and opt-in messaging. | STATUS, openers, mail, writing claims, and a project tree. |
-| memory tools and platforms | mem0, Letta (also Basic Memory) | Persistent memory via SDKs, agents, or Markdown and MCP. | Local or hosted; cloud options span computers. | A plain-file law book and project coordination. |
-| agent instruction files | CLAUDE.md, AGENTS.md | Instructions read at the start of a session, per project or per user. | AGENTS.md spans tools; files travel with a repo. | STATUS, mail, claims, and a tree across machines and vendors. |
+- `STATUS.md` per project: where it stands, what is left, what was decided.
+- An opener: the next session's starting point, written by the last one.
+- Mail between sessions, and a claim that says who may write.
+- A tree page that shows every project and whose move is next.
 
-OpenClaw acts for you: it runs on your own machine and answers you in your chat apps.
-Exocortex is not an assistant; it is the shared record your coding-agent sessions work
-in.
+What it is not: an assistant, a chatbot, or a memory database. It runs
+beside the coding agents you already use (Claude Code, Codex, Grok) and
+stays on your own machines; your record never leaves your private repository.
 
-For shared agent memory, consider agentBrain or Open Second Brain. Exocortex focuses
-on project status, session handoffs, writing claims, and a tree across projects.
-
-## Read more
-
-- [The soul of the operating system](docs/WHY.md)
-- [How Exocortex is built, how it compares, and where it goes](docs/DESIGN.md)
+Read the essay behind it: [The soul of the operating system](docs/WHY.md).
+How it is built: [How Exocortex is built, how it compares, and where it goes](docs/DESIGN.md).
 
 ## What it needs
 
@@ -60,6 +57,22 @@ your projects' state, your mail and your claims are written. Your brain — the
 folder you name at install, `~/exocortex-brain` unless you say otherwise — is
 your own private repository: the heartbeat carries the hub's state into it,
 and none of it ever rides the public history.
+
+## How it compares
+
+| kind | examples | what it holds | sessions and machines | Exocortex's focus |
+|---|---|---|---|---|
+| personal AI assistants | OpenClaw, Hermes Agent | Acts on your behalf: messages you, remembers things, and runs tasks. | Chat or terminal access; OpenClaw supports multiple workspaces. | Project status, next-session openers, and writing claims. |
+| markdown brains for agents | agentBrain, Open Second Brain | Shared Markdown memory that supported agents read and write. | Shared files; agentBrain adds sync and opt-in messaging. | STATUS, openers, mail, writing claims, and a project tree. |
+| memory tools and platforms | mem0, Letta (also Basic Memory) | Persistent memory via SDKs, agents, or Markdown and MCP. | Local or hosted; cloud options span computers. | A plain-file law book and project coordination. |
+| agent instruction files | CLAUDE.md, AGENTS.md | Instructions read at the start of a session, per project or per user. | AGENTS.md spans tools; files travel with a repo. | STATUS, mail, claims, and a tree across machines and vendors. |
+
+OpenClaw acts for you: it runs on your own machine and answers you in your chat apps.
+Exocortex is not an assistant; it is the shared record your coding-agent sessions work
+in.
+
+For shared agent memory, consider agentBrain or Open Second Brain. Exocortex focuses
+on project status, session handoffs, writing claims, and a tree across projects.
 
 ## First run
 

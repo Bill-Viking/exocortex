@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2 — the look pass and the first screen
+
+- Four designed SVG figures: the four carriers, the wake sequence, the publishing road, and the family of projects around the one record.
+- `docs/DESIGN.md` embeds the figures with alt text and captions, and names Terrarium by its public page.
+- The README's first screen now says what is different before anything else; the comparison table moves below Install.
+
 ## 0.1.1 — the deeper documents
 
 - `docs/WHY.md`: the essay behind the program, the soul of the operating system.

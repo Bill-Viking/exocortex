@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">The wake sequence</title>
+  <desc id="desc">Check the real clock, pull the brain, and ask whether the project’s writing claim is free. Yes: take the claim and stamp in. No: read only, consult, report by mail. Both routes lead to reading STATUS.md, the opener and mail, then taking up recorded work and closing with STATUS, the next opener and release of the claim. The eight directed connections are retained.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9 Z" fill="#1d1d1b" />
+    </marker>
+    <marker id="amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9 Z" fill="#ffb000" />
+    </marker>
+  </defs>
+  <rect width="1200" height="900" fill="#ffffff" />
+  <text x="60" y="66" fill="#1d1d1b" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="700" text-anchor="start">Every session</text>
+  <path d="M60 82 H112" fill="none" stroke="#c4262e" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="119" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="22" font-weight="400" text-anchor="start">Figure 2. The wake sequence</text>
+  <path d="M60 132 H1140" fill="none" stroke="#c4262e" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="851" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="start">EVERY SESSION, EVERY MACHINE, EVERY VENDOR</text>
+  <text x="600" y="880" fill="#c4262e" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="23" font-weight="400" text-anchor="middle">Every session</text>
+  <text x="1140" y="880" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="end">2</text>
+  <text x="60" y="171" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="700" text-anchor="start">01</text>
+  <text x="60" y="200" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">Check the real clock</text>
+  <path d="M468 164 H700" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="251" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="700" text-anchor="start">02</text>
+  <text x="60" y="280" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">Pull the brain</text>
+  <path d="M468 244 H700" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="331" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="700" text-anchor="start">03  CLAIM</text>
+  <text x="60" y="360" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">Is the project’s writing claim free?</text>
+  <path d="M468 334 H700" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="411" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="700" text-anchor="start">04  WRITER</text>
+  <text x="60" y="440" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">Take the claim and stamp in</text>
+  <path d="M468 404 H700" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="491" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="700" text-anchor="start">READ ONLY</text>
+  <text x="60" y="520" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">Consult, report by mail</text>
+  <path d="M468 484 H980" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="571" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="700" text-anchor="start">05  READ</text>
+  <text x="60" y="600" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">Read STATUS.md, the opener, the mail</text>
+  <path d="M468 564 H700" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="651" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="700" text-anchor="start">06  RESUME</text>
+  <text x="60" y="680" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">Take up the recorded work</text>
+  <path d="M468 644 H700" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="751" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="700" text-anchor="start">07  CLOSE</text>
+  <text x="60" y="780" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">STATUS, the next opener,</text>
+  <text x="60" y="805" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">release the claim</text>
+  <path d="M468 744 H700" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="700" y="144" width="230" height="58" rx="9" fill="#eeeeec" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="815" y="180" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="21" font-weight="700" text-anchor="middle">01</text>
+  <rect x="700" y="224" width="230" height="58" rx="9" fill="#eeeeec" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="815" y="260" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="21" font-weight="700" text-anchor="middle">02</text>
+  <rect x="700" y="384" width="230" height="58" rx="9" fill="#eeeeec" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="815" y="420" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="21" font-weight="700" text-anchor="middle">04  WRITER</text>
+  <rect x="700" y="544" width="230" height="58" rx="9" fill="#eeeeec" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="815" y="580" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="21" font-weight="700" text-anchor="middle">05  READ</text>
+  <rect x="700" y="624" width="230" height="58" rx="9" fill="#eeeeec" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="815" y="660" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="21" font-weight="700" text-anchor="middle">06  RESUME</text>
+  <rect x="700" y="724" width="230" height="58" rx="9" fill="#eeeeec" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="815" y="760" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="21" font-weight="700" text-anchor="middle">07  CLOSE</text>
+  <path d="M815 296 L930 334 L815 366 L700 334 Z" fill="#ffb000" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="815" y="342" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="21" font-weight="700" text-anchor="middle">03  CLAIM</text>
+  <rect x="980" y="464" width="172" height="58" rx="9" fill="#eeeeec" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="1066" y="500" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="700" text-anchor="middle">READ ONLY</text>
+  <path d="M815 202 V224" fill="none" stroke="#1d1d1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" />
+  <path d="M815 282 V296" fill="none" stroke="#1d1d1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" />
+  <path d="M815 366 V384" fill="none" stroke="#ffb000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#amber)" />
+  <text x="839" y="382" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="start">yes</text>
+  <path d="M930 334 H1066 V464" fill="none" stroke="#1d1d1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" />
+  <text x="1082" y="410" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="start">no</text>
+  <path d="M815 442 V544" fill="none" stroke="#1d1d1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" />
+  <path d="M1066 522 V573 H930" fill="none" stroke="#1d1d1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" />
+  <path d="M815 602 V624" fill="none" stroke="#1d1d1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" />
+  <path d="M815 682 V724" fill="none" stroke="#1d1d1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" />
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">One record, several bodies</title>
+  <desc id="desc">The family around the one record: Exocortex at the centre, Continuum, Terrarium and Mack around it.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9 Z" fill="#1d1d1b" />
+    </marker>
+    <marker id="amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9 Z" fill="#ffb000" />
+    </marker>
+  </defs>
+  <rect width="1200" height="900" fill="#ffffff" />
+  <text x="60" y="66" fill="#1d1d1b" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="700" text-anchor="start">The family</text>
+  <path d="M60 82 H112" fill="none" stroke="#c4262e" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="119" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="22" font-weight="400" text-anchor="start">Figure 4. One record, several bodies</text>
+  <path d="M60 132 H1140" fill="none" stroke="#c4262e" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="60" y="851" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="start">THE FAMILY · ONE RECORD, SEVERAL BODIES</text>
+  <text x="600" y="880" fill="#c4262e" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="23" font-weight="400" text-anchor="middle">The family</text>
+  <text x="1140" y="880" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="end">4</text>
+  <text x="60" y="175" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="23" font-weight="700" text-anchor="start">CONTINUUM</text>
+  <text x="60" y="204" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">research on durable, portable AI memory:</text>
+  <text x="60" y="228" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">how a record should consolidate itself,</text>
+  <text x="60" y="252" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">recall what matters, verify against the</text>
+  <text x="60" y="276" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">artifact, and carry identity across sessions.</text>
+  <text x="60" y="300" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">Exocortex is its working prototype;</text>
+  <text x="60" y="324" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">Continuum is the lab for what</text>
+  <text x="60" y="348" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">Exocortex becomes.</text>
+  <path d="M500 168 H700" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="700" y="150" width="230" height="64" rx="9" fill="#eeeeec" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="815" y="190" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="24" font-weight="400" text-anchor="middle">CONTINUUM</text>
+  <text x="60" y="394" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="23" font-weight="700" text-anchor="start">EXOCORTEX</text>
+  <text x="60" y="423" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">the shared record in plain files</text>
+  <text x="60" y="447" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">(status, openers, mail, claims, the tree).</text>
+  <text x="60" y="471" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">Today, shipped.</text>
+  <path d="M500 387 H700" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="700" y="369" width="230" height="64" rx="9" fill="#ffb000" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="815" y="409" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="24" font-weight="400" text-anchor="middle">EXOCORTEX</text>
+  <text x="60" y="526" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="23" font-weight="700" text-anchor="start">MACK</text>
+  <text x="60" y="555" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">M.A.C. Model 04 (public, on GitHub),</text>
+  <text x="60" y="579" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">a personal robot that builds a history</text>
+  <text x="60" y="603" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">with its person and keeps it across</text>
+  <text x="60" y="627" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">models and bodies.</text>
+  <path d="M500 519 H970" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="970" y="501" width="182" height="64" rx="9" fill="#eeeeec" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="1061" y="541" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="24" font-weight="400" text-anchor="middle">MACK</text>
+  <text x="60" y="690" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="23" font-weight="700" text-anchor="start">TERRARIUM</text>
+  <text x="60" y="719" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">the living world of Continuum Arcade</text>
+  <text x="60" y="743" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">(public on GitHub), where model</text>
+  <text x="60" y="767" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="20" font-weight="400" text-anchor="start">characters live and make a shared history.</text>
+  <path d="M500 683 H700" fill="none" stroke="#1d1d1b" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="700" y="665" width="230" height="64" rx="9" fill="#eeeeec" stroke="#1d1d1b" stroke-width="1.2" />
+  <text x="815" y="705" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="24" font-weight="400" text-anchor="middle">TERRARIUM</text>
+  <path d="M757 369 V214" fill="none" stroke="#1d1d1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" />
+  <text x="736" y="281" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="19" font-weight="400" text-anchor="end">prototype</text>
+  <path d="M880 214 V369" fill="none" stroke="#1d1d1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" />
+  <text x="900" y="282" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="19" font-weight="400" text-anchor="start">what it</text>
+  <text x="900" y="306" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="19" font-weight="400" text-anchor="start">becomes</text>
+  <path d="M1152 523 H1175 V144 H815 V150" fill="none" stroke="#1d1d1b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="4 6" />
+  <text x="1148" y="210" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="19" font-weight="400" text-anchor="end">memory</text>
+  <text x="1148" y="234" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="19" font-weight="400" text-anchor="end">integration,</text>
+  <text x="1148" y="258" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="19" font-weight="400" text-anchor="end">open</text>
+  <path d="M930 401 H1061 V501" fill="none" stroke="#1d1d1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" marker-start="url(#arrow)" />
+  <text x="1148" y="458" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="end">reads and writes the record</text>
+  <text x="1148" y="481" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="end">(a proposed adapter)</text>
+  <path d="M700 697 H610 V182 H700" fill="none" stroke="#1d1d1b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)" />
+  <text x="630" y="628" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="19" font-weight="400" text-anchor="start">makes a history</text>
+  <text x="630" y="652" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="19" font-weight="400" text-anchor="start">to study</text>
+  <text x="60" y="804" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="start">Mack's page lists Continuum, Terrarium and Exocortex as proposed adapters.</text>
+  <text x="60" y="827" fill="#1d1d1b" font-family="&quot;Apple Garamond&quot;, Garamond, &quot;EB Garamond&quot;, &quot;Hoefler Text&quot;, Georgia, serif" font-size="18" font-weight="400" text-anchor="start">Directions, not shipped connections.</text>
+</svg>

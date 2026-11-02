@@ -4,9 +4,13 @@
 
 Exocortex is a plain-file second brain for a person who works across many
 projects, machines, and AI sessions. The folder you clone is the hub. It holds
-the program and the person's own notes. One tracked `.gitignore` tells them
-apart: it denies everything by default, then allows the program's names back
-in. The program ships. The brain never does.
+the program and, beside it, your own notes. The two never mix on the way out.
+The program only ever comes in, from the public repository, when you clone or
+pull. Your notes only ever go out to your own private repository, by the
+heartbeat. Nothing of yours has a road to the public repository: the tracked
+`.gitignore` denies everything by default and allows only the program's own
+file names back in, so a note of yours is private without anyone remembering
+to list it.
 
 Each project has a `STATUS.md` with three sections: `## Now`, `## To do`, and
 `## Important`. It records the current state, the work left, and the decisions
@@ -26,21 +30,11 @@ The files travel by four carriers:
 - **Heavy or never-cloud material.** An external drive carries it, by rule.
 - **Machine-personal material.** It never syncs, on purpose.
 
-```mermaid
-flowchart LR
-    subgraph hub["The hub folder on each machine"]
-        program["The program<br/>(tracked by git)"]
-        notes["Your notes, status, mail<br/>(ignored by git)"]
-    end
-    program -- "git clone / pull" --> public["The public repository"]
-    notes -- "the heartbeat" --> brain["Your brain<br/>(your private repository)"]
-    work["Each project's own repository"] -. "its own rules" .-> hub
-    drive["An external drive"] -. "heavy or never-cloud material" .-> hub
-```
+![The program comes in from the public repository; your record goes out only to your private repository; the two never cross.](figures/partition.svg)
 
-One tracked `.gitignore` draws the line inside the hub: what git tracks is the
-program and travels by git; what git ignores is yours and travels by your
-private brain. A machine's own settings and sessions stay on that machine.
+*Figure 1. Two roads that never cross: the program in from the public, your record out to your private repository.*
+
+A machine's own settings and sessions stay on that machine.
 
 The law book has two parts. A starter book tells sessions how the program
 runs. The user's own book sits beside it and holds the rules they choose.
@@ -54,17 +48,10 @@ pulls the brain, checks whether another session already holds the project's
 writing claim, stamps itself in, then reads `STATUS.md`, the opener and any
 mail addressed to it, and takes up the recorded work.
 
-```mermaid
-flowchart LR
-    clock["Check the real clock"] --> pull["Pull the brain"]
-    pull --> claim["Is the project's writing claim free?"]
-    claim -- yes --> stamp["Take the claim and stamp in"]
-    claim -- no --> reader["Read only: consult, report by mail"]
-    stamp --> read["Read STATUS.md, the opener, the mail"]
-    reader --> read
-    read --> work["Take up the recorded work"]
-    work --> close["Close: STATUS, the next opener, release the claim"]
-```
+![A session checks the clock and brain, branches on the writing claim, reads the record, resumes work and closes.](figures/wake.svg)
+
+*Figure 2. The wake sequence: the writing claim decides the role; both paths begin with the same recorded context.*
+
 The usage meter warns about consumption. It never blocks a prompt a person
 typed.
 
@@ -75,14 +62,9 @@ each push. A synthetic rehearsal checks the publishing road before any real
 write. The verdict, the owner's push and the host's lock are separate parts
 of the release.
 
-```mermaid
-flowchart LR
-    tree["The exact tree of files"] --> verdict["A judgment mind writes the verdict;<br/>the owner adds the go"]
-    verdict --> prepare["publish.py --prepare:<br/>one commit, checked object by object"]
-    prepare --> push["The owner's own push<br/>with the deploy key and its passphrase"]
-    push --> host["The git host:<br/>rulesets refuse every other write"]
-    rehearsal["A synthetic rehearsal on a throwaway repository"] -. "proves the road first" .-> push
-```
+![Reviewed files become one checked commit; the owner pushes with the key, and the host refuses other writes.](figures/publishing.svg)
+
+*Figure 3. The publishing road: the owner holds the key, and a synthetic rehearsal proves the road before a real write.*
 
 The hub, project records, heartbeat, local pages and publishing road run
 today. This release was proven on macOS. Windows installation, heartbeat and
@@ -158,7 +140,10 @@ write. This is a direction, not a shipped connection or a promise.
 
 Mack's page names two more of the author's projects beside Exocortex as
 proposed adapters. Continuum is a research project on durable, portable AI
-memory; Exocortex is its working prototype in plain files. Terrarium is a
-sibling project. Each will have its own public page when it is ready; here
+memory; Exocortex is its working prototype in plain files. Terrarium is the living world of [Continuum Arcade](https://github.com/Bill-Viking/continuum-arcade), where model characters live and make a shared history. Each will have its own public page when it is ready; here
 they are named only so the family is visible as one shared record read by
 several bodies.
+
+![The family: Exocortex at the centre, Continuum, Terrarium and Mack around it](figures/family.svg)
+
+*Figure 4. One record, several bodies. Exocortex runs today; the connections are directions, not shipped integrations.*
