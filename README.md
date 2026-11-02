@@ -27,6 +27,11 @@ in.
 For shared agent memory, consider agentBrain or Open Second Brain. Exocortex focuses
 on project status, session handoffs, writing claims, and a tree across projects.
 
+## Read more
+
+- [The soul of the operating system](docs/WHY.md)
+- [How Exocortex is built, how it compares, and where it goes](docs/DESIGN.md)
+
 ## What it needs
 
 - Python 3.9 or later

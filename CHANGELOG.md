@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 — the deeper documents
+
+- `docs/WHY.md`: the essay behind the program, the soul of the operating system.
+- `docs/DESIGN.md`: how Exocortex is built, how it compares with nearby tools, where it is special, and where it goes.
+- The README links both under Read more.
+
 ## 0.1.0 — the first public release
 
 The first public release, installed from this repository.
