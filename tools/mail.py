@@ -750,8 +750,104 @@ def road_line(pm, line, hub=None):
             title, att.get("why") or "idle")
     return ""
 
+# ── a private lane's letters stay on their machine ─────────────────
+# A letter to or from a lane the user marked private crosses INBOX.md as its
+# ADDRESS and the lane's NAME only; the whole letter is kept in a file of this
+# machine that never syncs, and --read on this machine prints it in the stub's
+# place. ASSUMES: the sender's lane is its cwd or its EXO_SESSION_TITLE; the
+# receiver's lane is the address's lane part. Opposite: a letter between two
+# ordinary lanes is written byte for byte as before (gate-privacy C4b).
+try:
+    from exo_privacy import (private_lane_of as _private_lane_of,          # noqa: E402
+                             lane_of_word as _lane_of_word, WITHHELD as _WITHHELD)
+except Exception:
+    _private_lane_of = _lane_of_word = None
+    _WITHHELD = ""
+
+PRIVATE_TARGET = "private"
+PRIVATE_MAIL_ENV = "EXO_PRIVATE_MAIL"
+
+
+def private_mail_file():
+    """~/.exocortex/private-mail/letters.jsonl, or the file EXO_PRIVATE_MAIL names."""
+    named = str(os.environ.get(PRIVATE_MAIL_ENV) or "").strip()
+    return Path(named) if named else Path.home() / ".exocortex" / "private-mail" / "letters.jsonl"
+
+
+def private_lane_for(to, hub=None):
+    """The private lane a letter is addressed to or sent from, or None. Never raises."""
+    if _private_lane_of is None:
+        return None
+    try:
+        part = str(to or "").split("/", 1)[1] if "/" in str(to or "") else ""
+        for word in (part, part.split("-", 1)[0]):
+            lane = _lane_of_word(word, hub=hub) if word else None
+            if lane:
+                return lane
+        return _private_lane_of(title=os.environ.get("EXO_SESSION_TITLE", ""),
+                                cwd=os.getcwd(), hub=hub)
+    except Exception:
+        return None
+
+
+def withhold_letter(line, to, hub=None):
+    """The line INBOX.md may carry for this letter: the line itself, or — for a
+    private lane — a stub naming the address, the lane and the machine that
+    keeps the whole letter."""
+    lane = private_lane_for(to, hub)
+    if not lane:
+        return line
+    here = str(machine_json().get("name") or "this machine").upper()
+    ref = hashlib.sha256(line.encode("utf-8")).hexdigest()[:8]
+    stub = compose(to, PRIVATE_TARGET,
+                   "%s · %s · it waits on %s · ref %s" % (_WITHHELD, lane, here, ref),
+                   "read it on %s with mail.py --read %s" % (here, to))
+    store = private_mail_file()
+    try:
+        store.parent.mkdir(parents=True, exist_ok=True)
+        with open(store, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps({"stub": token(stub), "line": line, "to": str(to), "lane": lane,
+                                 "when": datetime.datetime.now().astimezone().replace(
+                                     microsecond=0).isoformat()}, ensure_ascii=False) + "\n")
+        try:
+            os.chmod(str(store), 0o600)
+        except OSError:
+            pass
+    except OSError as exc:
+        # nowhere to keep it: the letter is NOT sent, never sent whole
+        sys.exit("mail: a private lane's letter could not be kept on this machine (%s) — "
+                 "nothing was written to INBOX.md" % exc)
+    return stub
+
+
+def private_letters():
+    """{stub token: the whole line} from this machine's private file — {} when none."""
+    out = {}
+    try:
+        with open(private_mail_file(), encoding="utf-8") as fh:
+            for raw in fh:
+                try:
+                    rec = json.loads(raw)
+                except ValueError:
+                    continue
+                if isinstance(rec, dict) and rec.get("stub") and rec.get("line"):
+                    out[rec["stub"]] = rec["line"]
+    except OSError:
+        pass
+    return out
+
+
+def shown_line(line, kept=None):
+    """What a reader on this machine prints for an INBOX line: the whole letter
+    when it is a private stub this machine keeps, else the line itself."""
+    if PRIVATE_TARGET not in line:
+        return line
+    kept = private_letters() if kept is None else kept
+    return kept.get(token(line), line)
+
+
 def send(to, target, text, action, push=True, hub=None):
-    line = compose(to, target, text, action)
+    line = withhold_letter(compose(to, target, text, action), to, hub)
     append(line)
     print("sent:", line[:120] + ("…" if len(line) > 120 else ""), "[%s]" % token(line))
     pm = outbox_record(line, to, hub)
@@ -788,7 +884,8 @@ def read(to, mark=None, title=None, every=150, hub=None, show_all=False):
     if not todo: return
     earlier = read_record(hub, mark or title)
     fresh = [l for l in todo if shown_token(l, to) not in earlier]
-    for l in todo: print("MAIL:", l, "[%s]" % shown_token(l, to))
+    kept = private_letters()
+    for l in todo: print("MAIL:", shown_line(l, kept), "[%s]" % shown_token(l, to))
     note_read(hub, mark or title, todo, to)
     if mark:
         if earlier and fresh:              # a mark must never sweep

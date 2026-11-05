@@ -12,6 +12,8 @@ dial every window.
     python3 tools/spool.py --dials                the dial pass over this machine's live windows
     python3 tools/spool.py --dials --plates-only  the postman's judge: plates only, never a walk
     common: [--json] [--login LOGIN] [--max-age MINUTES] [--project NAME] [--self SESSION_ID]
+            [--remote on|off]   whether the asking window's pick came over Remote Control (the
+                                session reads its own get_session `remoteControlActive` first)
 
 On Windows the same, as `python tools\\spool.py ...`.
 
@@ -45,6 +47,12 @@ UNREADABLE — <its first line>"; a stale or missing meter keeps every UP ("METE
 never blocks a DOWN. Every --json object carries `plate_uuid` (the reply record the plate was
 read from), `local_id` and `plate` (the plate's own mind, level and clause).
 
+REMOTE CONTROL. The app starts a window only from a message typed at its own machine.
+When the pick came over Remote Control (`--remote on`), --ask asks nothing and --start starts
+nothing: each lane's MANUAL step is handed for the lane's HOME machine (its opener's `on:`) —
+that machine's label, shell and recorded folder — and the asking window never takes the lane
+itself. A lane that keeps no remote is never worked from the hub folder: its step says so.
+
 --start prints: the reminder · a ⚠ line when the hub's own dial (read from its transcript, never
 guessed) runs below a lane's walk, or one ⚠ line when that dial is unread · each lane's step and
 its start object · the AFTER list (detach · the dial, never asked · group by project · record ·
@@ -63,6 +71,7 @@ import os
 import re
 import sys
 import time
+import copy
 from datetime import datetime
 from pathlib import Path
 
@@ -97,6 +106,14 @@ ASK_LINES = (
     "why: start mode costs you no window to open; manual mode when you want the words in your own hand",
     "Say 1 or 2.",
 )
+REMOTE_HEAD = ("SPOOL — %s · the pick came over Remote Control: the app starts a window only from "
+               "a message typed at its own machine, so nothing is asked and nothing is started. "
+               "Each lane's step, for its home machine:")
+REFUSED_LINE = ("START REFUSED — %s: the pick came over Remote Control, and the app starts no "
+                "window from it. The step below opens it on %s; this window never takes the "
+                "lane itself.")
+NEVER_HERE = ("· never worked from the hub folder — %s keeps no remote; its window opens in "
+              "its own folder on %s, never in this one")
 AFTER_LINES = (
     "AFTER 1 · detach_session <each new id> — at once, in the message right after the starts",
     "AFTER 2 · the dial, never asked: get_session <each new id>; where model or effort is not the "
@@ -478,6 +495,16 @@ def _suffix(lane):
     return str(lane or "").rsplit("/", 1)[-1]
 
 
+def collect_lanes():
+    """The collector's rows, the lanes the user marked private included: this road
+    prints into the asking window only, never into a synced file. An older collector
+    without the flag gives its own rows."""
+    try:
+        return M.co.collect(include_private=True)
+    except TypeError:
+        return M.co.collect()
+
+
 def match_lane(data, target, project=None):
     """The rows a lane word means: the collector's own match first; when it gives several,
     the one whose lane (or its part after the slash) is that word. Several rows of ONE lane
@@ -538,6 +565,62 @@ def _foreign(c, path):
 
 def _base(path):
     return re.split(r"[\\/]", path.rstrip("\\/"))[-1]
+
+
+def home_word(c, row):
+    """The lane's home machine, by the registry's name: its opener's `on:` word — '' when the
+    opener says none. A word the registry does not know is kept as said, lower-case."""
+    said = str((row.get("header") or {}).get("on") or "").strip()
+    if not said:
+        return ""
+    word = re.split(r"[\s·,;()]+", said)[0].strip().lower()
+    for name in M.rg.machine_names(c.reg):
+        if str(name).lower() == word or str(M.rg.machine_label(c.reg, name)).lower() == word:
+            return name
+    return word
+
+
+def home_context(c, home):
+    """A context for the lane's HOME machine — its label, its shell, its projects root (from
+    the roots file that machine publishes) — or c itself when the home is this machine.
+    ASSUMES: a machine's OS is the registry's word, else its published roots file's.
+    Opposite: an unknown OS keeps this machine's (gate-spool RC4 names the home's shell)."""
+    if not home or str(home).lower() == c.machine:
+        return c
+    h = copy.copy(c)
+    h.machine = str(home).lower()
+    h.label = M.rg.machine_label(c.reg, h.machine) or h.machine.title()
+    h.word = h.label.upper()
+    roots = _read_json(os.path.join(c.hub, "roots-%s.json" % h.machine)) or {}
+    word = M.rg.machine_os(c.reg, h.machine)
+    if word not in ("macos", "windows", "linux"):
+        said = str(roots.get("os") or "").lower()
+        word = ("windows" if said.startswith("win") else "macos"
+                if said.startswith(("darwin", "macos")) else "linux" if said.startswith("linux")
+                else c.os)
+    h.os = word
+    h.py = "python" if h.os == "windows" else "python3"
+    h.sep = "\\" if h.os == "windows" else "/"
+    h.projects = str((roots.get("roots") or {}).get("projects") or "")
+    h.remote_home = True
+    return h
+
+
+def home_folder(h, row):
+    """(the lane's folder on its HOME machine, the note) — read from the opener's `open_in:`,
+    never checked from here, since that folder is on another machine."""
+    text = str((row.get("header") or {}).get("open_in") or "")
+    pattern = WIN_PATH if h.os == "windows" else POSIX_PATH
+    for m in pattern.finditer(text):
+        cand = _trim(m.group(1))
+        if cand and not _foreign(h, cand):
+            return cand, "the folder %s's opener records on the %s — not checked from here" % (
+                row["lane"], h.word)
+    if h.projects and row.get("project"):
+        return (h.projects.rstrip("/\\") + h.sep + row["project"],
+                "the %s's projects root and the project's name — not checked from here" % h.word)
+    raise Stop("%s's opener names no folder on the %s — hand its card: collect-openers.py "
+               "--expand \"%s\"" % (row["lane"], h.word, row["lane"]))
 
 
 def open_in_folder(c, row):
@@ -653,6 +736,8 @@ def lane_sentence(c, row, folder):
     if own:
         return own, "the opener's own paste-ready line"
     opener = row.get("opener") or "the opener"
+    if getattr(c, "remote_home", False):          # another machine's folder: never compared here
+        return (M.co.LAUNCH_SENTENCE % (row["lane"], c.word, opener)), "the launch sentence"
     if os.path.abspath(row["path"]) != os.path.abspath(folder) and row.get("opener"):
         opener_ref = os.path.join(row["path"], row["opener"])
         return ("%s Pick up %s on the %s: open %s and follow it."
@@ -930,8 +1015,9 @@ def launch_line(c, shell, folder, cli, sentence):
     return 'cd "%s" && claude --model %s %s' % (folder, cli, quote_zsh(sentence))
 
 
-def lane_facts(c, row, meter, also=()):
-    """Everything one lane's step is made of — or a Stop."""
+def lane_facts(c, row, meter, also=(), hc=None):
+    """Everything one lane's step is made of — or a Stop. With `hc`, a home context for
+    another machine, the folder and the step are that machine's."""
     fresh = row.get("fresh")
     lane = row["lane"]
     if fresh == "stale":
@@ -940,10 +1026,13 @@ def lane_facts(c, row, meter, also=()):
                                                                      SENTENCE_HEAD))
     if fresh not in ("fresh", "note") or not row.get("body"):
         raise Stop("NO OPENER — %s: no opener left; open it with: %s" % (lane, SENTENCE_HEAD))
-    folder, folder_note = open_in_folder(c, row)
-    if not os.path.isdir(folder):
-        raise Stop("the folder %s is not on this machine — clone or land %s here first"
-                   % (folder, row["project"]))
+    if hc is not None and hc is not c:
+        folder, folder_note = home_folder(hc, row)
+    else:
+        folder, folder_note = open_in_folder(c, row)
+        if not os.path.isdir(folder):
+            raise Stop("the folder %s is not on this machine — clone or land %s here first"
+                       % (folder, row["project"]))
     gate = check_gate(c, row)
     w = walk(c, row, meter)
     if w["kind"] not in ("claude", "codex"):
@@ -951,7 +1040,7 @@ def lane_facts(c, row, meter, also=()):
                    "hand it by its own card: %s --expand \"%s\""
                    % (w["mind"], w["kind"] or "unknown", tool_cmd(c, "collect-openers.py"),
                       lane))
-    sentence, sentence_from = lane_sentence(c, row, folder)
+    sentence, sentence_from = lane_sentence(hc or c, row, folder)
     captured_note, captured_head = captured_words(row)
     if captured_head:
         sentence = captured_sentence(captured_head, sentence)
@@ -962,7 +1051,8 @@ def lane_facts(c, row, meter, also=()):
              "folder_note": folder_note, "gate": gate, "walk": w, "sentence": sentence,
              "sentence_from": sentence_from, "title": short, "title_full": title,
              "title_cut": cut, "meter": meter, "also": list(also), "notes": [],
-             "captured": row.get("captured") or None, "captured_note": captured_note}
+             "captured": row.get("captured") or None, "captured_note": captured_note,
+             "ctx": hc or c}
     if row.get("source") not in ("folder", None, "none"):
         facts["notes"].append("⚠ STALE-BEHIND-CARRIER — the freshest copy rides %s (written %s); "
                               "the folder's copy is older or absent — land it before the window "
@@ -1038,7 +1128,27 @@ def footer_lines(c, f):
         out.append("· %s" % note)
     if f["also"]:
         out.append("· the same lane rides %s too" % ", ".join(f["also"]))
+    if lane_keeps_no_remote(c, row):
+        out.append(NEVER_HERE % (f["lane"], (f.get("ctx") or c).word))
     return out
+
+
+def lane_keeps_no_remote(c, row):
+    """True when the lane keeps no remote: its carrier (carry/projects.json) or its own STATUS
+    `## Important` says so. ASSUMES: the STATUS words are the user's (NO REMOTE · stays local ·
+    local-only · never pushed). Opposite: a lane with a remote carries no such line (RC5b)."""
+    try:
+        if no_remote(c, row.get("project") or ""):
+            return True
+    except Exception:
+        pass
+    try:
+        sys.path.insert(0, M.tdir)
+        from exo_privacy import no_remote as status_says_no_remote
+        text = (Path(row["path"]) / "STATUS.md").read_text(encoding="utf-8", errors="replace")
+        return bool(status_says_no_remote(text))
+    except Exception:
+        return False
 
 
 def facts_json(c, f, starter=None):
@@ -1214,7 +1324,7 @@ def successor_after(c, f, retiring, starter):
 
 def run_successor(c, a):
     meter = read_meter(c, a["login"], a["max_age"])
-    data = M.co.collect()
+    data = collect_lanes()
     row, others = match_lane(data, a["lanes"][0], a["project"] or None)
     f = lane_facts(c, row, meter, others)
     if f["walk"]["kind"] != "claude":
@@ -1562,7 +1672,7 @@ USAGE = __doc__.split("THE STEP,")[0].rstrip() + "\n"
 def parse(argv):
     a = {"lanes": [], "all": False, "start": False, "dials": False, "json": False, "ask": False,
          "login": "", "max_age": MAX_AGE_MIN, "project": "", "self": None, "help": False,
-         "plates_only": False}
+         "plates_only": False, "remote": None}
     a["successor"], a["retiring"] = False, ""          # successor mode
     i = 0
     while i < len(argv):
@@ -1581,6 +1691,11 @@ def parse(argv):
             a["json"] = True
         elif arg == "--plates-only":
             a["plates_only"] = True
+        elif arg == "--remote":
+            if i + 1 >= len(argv) or argv[i + 1].lower() not in ("on", "off", "true", "false"):
+                raise Defect("--remote takes on or off (the window's own remoteControlActive)")
+            i += 1
+            a["remote"] = argv[i].lower() in ("on", "true")
         elif arg == "--successor":                       # successor mode
             a["successor"] = True
         elif arg == "--retiring":
@@ -1632,7 +1747,7 @@ def say(text=""):
 def run_ask(c, a):
     """The one question on «spool»: a window started, or the prompt handed. No meter, no
     walk — only the lane names are checked, so a wrong name is a STOP here and not later."""
-    data = M.co.collect()
+    data = collect_lanes()
     names = []
     if a["all"]:
         names = sorted({row["lane"] for row in data["rows"] if row["active"]})
@@ -1642,6 +1757,10 @@ def run_ask(c, a):
             names.append(row["lane"])
     if not names:
         raise Stop("no active lane to spool")
+    if a.get("remote"):                 # no question over Remote Control — the step
+        if not a["json"]:
+            say(REMOTE_HEAD % " · ".join(names))
+        return run_steps(c, dict(a, ask=False, start=False, lanes=list(names), all=False))
     if a["json"]:
         say(json.dumps({"ask": ASK_HEAD % " · ".join(names), "lanes": names,
                         "choices": {"1": "start", "2": "hand"},
@@ -1659,7 +1778,7 @@ def run_steps(c, a):
     if a.get("successor"):                       # successor mode
         return run_successor(c, a)
     meter = read_meter(c, a["login"], a["max_age"])
-    data = M.co.collect()
+    data = collect_lanes()
     if a["all"]:
         chosen, seen = [], set()
         for row in data["rows"]:
@@ -1678,6 +1797,8 @@ def run_steps(c, a):
                 chosen.append(({"lane": lane, "project": "", "gated": False}, exc))
     self_id = a["self"] if a["self"] is not None else os.environ.get(SELF_ENV, "")
     starter = starter_dial(c, self_id)
+    remote = a.get("remote") is True
+    refused = 0
     done, stops, warns, started = [], 0, [], 0
     for row, others in chosen:
         if isinstance(others, Stop):
@@ -1686,11 +1807,22 @@ def run_steps(c, a):
                          {"lane": row["lane"], "project": "", "stop": str(others)}))
             continue
         try:
-            f = lane_facts(c, row, meter, others)
+            hc = home_context(c, home_word(c, row)) if remote else None
+            f = lane_facts(c, row, meter, others, hc=hc)
         except Stop as exc:
             stops += 1
             done.append((bool(row.get("gated")), ["STOP — %s" % exc],
                          {"lane": row["lane"], "project": row["project"], "stop": str(exc)}))
+            continue
+        if a["start"] and remote:
+            # ASSUMES: a pick over Remote Control cannot start a window (the app refuses).
+            # Opposite: a typed pick starts as before (gate-spool RC3).
+            refused += 1
+            lines = ([REFUSED_LINE % (f["lane"], f["ctx"].word)] + step_lines(f["ctx"], f)
+                     + footer_lines(c, f))
+            obj = facts_json(c, f, starter)
+            obj.update({"remote": True, "home": f["ctx"].word, "refused_start": True})
+            done.append((f["gate"]["gated"], lines, obj))
             continue
         if a["start"] and f["walk"]["kind"] != "claude":
             stops += 1
@@ -1700,8 +1832,10 @@ def run_steps(c, a):
             done.append((f["gate"]["gated"], ["STOP — %s" % msg],
                          {"lane": f["lane"], "project": f["project"], "stop": msg}))
             continue
-        lines = step_lines(c, f) + footer_lines(c, f)
+        lines = step_lines(f["ctx"], f) + footer_lines(c, f)
         obj = facts_json(c, f, starter)
+        if remote:
+            obj.update({"remote": True, "home": f["ctx"].word})
         if a["start"]:
             start = start_object(c, f, data)
             lines.append(json.dumps(start, ensure_ascii=False))
@@ -1718,8 +1852,8 @@ def run_steps(c, a):
     objs = [d[2] for d in done]
     if a["json"]:
         say(json.dumps(objs, ensure_ascii=False, indent=1))
-        return EXIT_STOP if stops else EXIT_OK
-    if a["start"]:
+        return EXIT_STOP if (stops or refused) else EXIT_OK
+    if a["start"] and not remote:
         say(START_REMINDER)
         if started and not starter["read"]:
             say(STARTER_UNREAD % starter["why"])
@@ -1731,11 +1865,11 @@ def run_steps(c, a):
             say(RULE)
         for line in lines:
             say(line)
-    if a["start"] and stops < len(blocks):
+    if a["start"] and not remote and stops < len(blocks):
         say(RULE)
         for line in AFTER_LINES:
             say(line)
-    return EXIT_STOP if stops else EXIT_OK
+    return EXIT_STOP if (stops or refused) else EXIT_OK
 
 
 def run_dials(c, a):
@@ -1750,10 +1884,10 @@ def run_dials(c, a):
 
         def data():
             if not held:
-                held.append(M.co.collect())
+                held.append(collect_lanes())
             return held[0]
     else:
-        data = M.co.collect()
+        data = collect_lanes()
     self_id = a["self"] if a["self"] is not None else os.environ.get(SELF_ENV, "")
     ids = app_ids(c)
     lines, objs = [], []

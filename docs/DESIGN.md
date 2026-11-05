@@ -108,6 +108,8 @@ can read, correct and carry elsewhere. A different model or vendor can read
 the same record. The reasoning comes from the model running now; continuity
 does not have to depend on keeping it.
 
+See "What the clerk cannot do yet" in the WHY page for the research still needed before the record can help its owner decide what to keep, correct or let go.
+
 **The human rules irreversible action.** Publication makes that boundary
 concrete. A review verdict binds the files, the host enforces the lock, and
 the owner supplies the passphrase for the push. A session's preparation does

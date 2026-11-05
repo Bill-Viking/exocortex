@@ -49,6 +49,20 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from exo_registry import registry, mind_alias                         # noqa: E402
 from exo_paths import paths                                           # noqa: E402
+try:                                   # a private lane's stamp carries its NAME only
+    from exo_privacy import public_title                              # noqa: E402
+except Exception:
+    def public_title(title, **_kw):
+        return title
+
+
+def shown(title, hub=None):
+    """The title a stamp may carry. ASSUMES: --off compares two shown titles,
+    so a private window still switches itself off. Opposite: gate-privacy C6b."""
+    try:
+        return public_title(str(title or ""), cwd=os.getcwd(), hub=hub)
+    except Exception:
+        return title
 
 _REG = [None]
 
@@ -269,7 +283,7 @@ def main(argv):
     if "--off" in argv:
         if args:                       # --off FABLE ["<title>"]  (or  FABLE --off)
             mind = args[0].upper()
-            title = " ".join(args[1:]).strip()
+            title = shown(" ".join(args[1:]).strip(), hub=folder)
             target = mind_file(folder, name, mind)
             keep = sessions_of(read_stamp(target))
             if title:                  # one session leaves; the mind's others stay up
@@ -319,7 +333,7 @@ def main(argv):
     if len(args) < 2:
         print(__doc__); return 1
     mind = canon_mind(args[0])
-    entry = {"title": " ".join(args[2:]) if len(args) > 2 else "",
+    entry = {"title": shown(" ".join(args[2:]), hub=folder) if len(args) > 2 else "",
              "effort": args[1].upper(), "when": now_iso()}
     ident, id_line = identity_or_nonce(title=entry["title"], hub=folder)
     for k in ("session", "host_session", "vendor"):

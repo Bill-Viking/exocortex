@@ -1520,6 +1520,28 @@ def logical_for(root_key, rel):
     return rel.split("/")[-1]
 
 
+def private_memory_lane(roots, root_key, rel):
+    """The private lane a memory dir belongs to, or None. A lane the owner marked
+    private (its STATUS `privacy: private`, or the registry) keeps its memory on its own
+    machine: the dir is never staged, so the brain never carries it. The hub's exo_privacy.py
+    answers; a hub without it marks nothing private.
+    ASSUMES: a memory dir maps to the project folder it was made in. Opposite: an ordinary
+    project's memory is staged as before (gate-privacy C10b)."""
+    if not rel or root_key is None:
+        return None
+    base, hub = roots.get(root_key), roots.get("orchestrator")
+    if base is None or hub is None:
+        return None
+    try:
+        tools = str(Path(hub) / "tools")
+        if tools not in sys.path:
+            sys.path.insert(0, tools)
+        from exo_privacy import private_lane_of
+        return private_lane_of(cwd=str(Path(base) / rel), hub=str(hub))
+    except Exception:
+        return None
+
+
 def discover_memories(machine, memory_map=None, repo_memories=None):
     """Scan ~/.claude/projects for dirs that HAVE a memory/ subdir.
 
@@ -1557,11 +1579,19 @@ def discover_memories(machine, memory_map=None, repo_memories=None):
         pinned = index.get(entry.name)
         if pinned is not None:
             logical, root_key, rel = pinned
+            if private_memory_lane(roots, root_key, rel):
+                notes.append("memory dir %r: a private lane's memory — kept on this machine, "
+                             "never staged" % entry.name)
+                continue
             rows.append((entry.name, root_key, rel, logical))
             continue
         root_key, rel = unmunge(entry.name, roots)
         if root_key is None:
             root_key, rel = unmunge_string(entry.name, roots)
+        if private_memory_lane(roots, root_key, rel):
+            notes.append("memory dir %r: a private lane's memory — kept on this machine, "
+                         "never staged" % entry.name)
+            continue
         if root_key is None:
             if entry.name in tracked:
                 notes.append("memory dir %r: does not un-munge here — it goes "

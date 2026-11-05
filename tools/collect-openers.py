@@ -213,6 +213,13 @@ try:
     import exo_laws as _laws                    # noqa: E402
 except Exception:
     _laws = None
+# a lane the user marked private gets no card, no opener and no
+# carried copy here — the tree and TREE.md say only how many were kept off.
+try:
+    from exo_privacy import private_lane_of     # noqa: E402
+except Exception:
+    def private_lane_of(**_kw):
+        return None
 try:
     import personal as _personal                # noqa: E402
 except Exception:
@@ -1372,20 +1379,58 @@ def carrier_index(projects_root):
         return {"all": [], "notes": ["carriers: %s" % exc]}
 
 
-def collect():
-    """The whole picture: ranked rows plus the flags nobody should miss."""
+def _private(cwd="", arc=""):
+    """The private lane a folder or a lane word belongs to, or None — never raises."""
+    try:
+        return private_lane_of(cwd=cwd, arc=arc)
+    except Exception:
+        return None
+
+
+def collect(include_private=False):
+    """The whole picture: ranked rows plus the flags nobody should miss.
+    include_private: a local road (the spool, printing into one window) sees the lanes the
+    user marked private too, each row marked `private`; every writer of a synced file
+    calls it without."""
     global LAST_CARRIED
     found, projects_root, machine = project_roots()
     carried = carrier_index(projects_root)
     rows = []
     skipped = []
+    private = set()
+    # ASSUMES: a private lane is found by its folder or its lane word, never
+    # guessed from words in a card. Opposite: a cleared lane draws its card as
+    # before (gate-privacy C2b).
     for name, path, is_hub in found:
+        lane = None if is_hub else _private(cwd=str(path), arc=name)
+        if lane and not include_private:
+            private.add(lane)
+            continue
         try:
             rows.extend(scan_project(name, path, is_hub, carried))
         except Exception as exc:              # a weird folder is reported, not fatal
             skipped.append("%s: %s" % (name, exc))
     LAST_CARRIED = (carriers.unclaimed(carried)
                     if (carriers is not None and carried) else [])
+    kept = []
+    for item in LAST_CARRIED:
+        lane = _private(arc=item.get("lane") or "") or _private(arc=item.get("project") or "")
+        if lane and not include_private:
+            private.add(lane)
+        else:
+            kept.append(item)
+    LAST_CARRIED = kept
+    shown = []
+    for row in rows:                          # an opener in another folder that names a private lane
+        lane = _private(cwd=str(row.get("path") or ""), arc=row.get("lane") or "")
+        if lane and include_private:
+            row["private"] = True
+            shown.append(row)
+        elif lane:
+            private.add(lane)
+        else:
+            shown.append(row)
+    rows = shown
     # Ranking: touched descending, active lanes first, paused after. Lane name
     # breaks ties so two runs never disagree.
     rows.sort(key=lambda row: row["lane"].lower())
@@ -1412,7 +1457,7 @@ def collect():
     }
     return {"generated": datetime.now().astimezone().isoformat(timespec="seconds"),
             "machine": machine, "projects_root": str(projects_root),
-            "rows": rows, "flags": flags,
+            "rows": rows, "flags": flags, "private_count": len(private),
             "carried": [{"lane": item.get("lane"), "source": item.get("source"),
                          "file": item.get("file"),
                          "written": (item.get("header") or {}).get("written") or ""}
@@ -1657,6 +1702,11 @@ def auto_region(data):
                         attr(row.get("source") or "none")))
         lines.extend(card_lines(row))
         lines.extend(opener_block_lines(row))
+    if data.get("private_count"):
+        n = data["private_count"]
+        lines.append("%d private lane%s kept off this page — marked private by %s."
+                     % (n, "" if n == 1 else "s", _rg.owner_label(reg())))
+        lines.append("")
     carried = list(LAST_CARRIED)
     if carried:
         lines.append("## Carried openers")

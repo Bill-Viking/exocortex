@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 — the clerk section
+
+- `docs/WHY.md` adds “What the clerk cannot do yet”.
+- `docs/DESIGN.md` points to the clerk section.
+- `docs/WHY.md` links the published essay.
+
 ## 0.1.2 — the look pass and the first screen
 
 - Four designed SVG figures: the four carriers, the wake sequence, the publishing road, and the family of projects around the one record.

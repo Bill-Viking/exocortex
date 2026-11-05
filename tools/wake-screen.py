@@ -120,6 +120,34 @@ def _load(name, file_name):
 sys.path.insert(0, str(HERE))
 CO = _load("wake_collect_openers", "collect-openers.py")
 AS = _load("wake_app_sessions", "app_sessions.py")
+try:                                   # a private lane is not on the wake screen or the tree
+    from exo_privacy import private_lane_of
+except Exception:
+    def private_lane_of(**_kw):
+        return None
+
+
+def is_private_row(row):
+    """A wake-screen lane the user marked private — by its folder, its lane word or its
+    window's title. ASSUMES: the screen's rows carry the folder when they have one.
+    Opposite: an ordinary lane with no folder stays on the screen (gate-privacy C8)."""
+    try:
+        return bool(private_lane_of(cwd=str(row.get("path") or ""), arc=str(row.get("lane") or ""),
+                                    title=str((row.get("window") or {}).get("title") or "")))
+    except Exception:
+        return False
+
+
+def not_private_titles(titles):
+    out = []
+    for t in titles or []:
+        try:
+            if private_lane_of(title=str(t)):
+                continue
+        except Exception:
+            pass
+        out.append(t)
+    return out
 RC = _load("wake_routine_check", "routine-check.py")
 BU = _load("wake_buttonup", "buttonup.py")          # the one reader of Codex's own store
 GS = _load("wake_grok_sessions", "grok_sessions.py")
@@ -772,13 +800,16 @@ def title_rest(title):
     return t.split(":", 1)[1].strip() if ":" in t else t
 
 
-def screen(limit=LIMIT, at=None):
+def screen(limit=LIMIT, at=None, rc_given=None):
     """Every fact the screen prints, as one dict."""
     at = at if at is not None else time.time()
     name, roots, record, home = machine_facts()
+    rc_value, rc_when = rc_reading(home, name, rc_given, at)
     hub = roots["orchestrator"]
     lanes, carried = gather(roots, home, at)
     add_windows(lanes, hub, home, name, at)
+    private_kept = len([k for k, r in lanes.items() if is_private_row(r)])
+    lanes = dict((k, r) for k, r in lanes.items() if not is_private_row(r))
     ranked = sorted((r for r in lanes.values() if r["last"] is not None),
                     key=lambda r: (-r["last"], r["lane"].lower()))[:limit]
     here = name.upper()
@@ -792,6 +823,7 @@ def screen(limit=LIMIT, at=None):
     night, night_list = night_facts()
     codex_left, codex_titles = codex_act_left(record, home)
     grok_left, grok_titles = grok_act_left(record, home)
+    codex_titles, grok_titles = not_private_titles(codex_titles), not_private_titles(grok_titles)
     who = window_login(record, home, hub)          # once: the usage words and the archive count
     account = login_account(who)
     verdict = sync_verdict(hub, name, at)
@@ -799,6 +831,8 @@ def screen(limit=LIMIT, at=None):
             "machine": here, "label": label, "mark": mark,
             "pulse": pulse_line(hub, name, at), "letters": letters_waiting(hub, name),
             "lanes_known": len(lanes), "rows": rows, "jobs": live_jobs(hub, at),
+            "private_kept": private_kept,
+            "remote_control": rc_line(rc_value, rc_when, rc_setting()),
             "archive": archive_count(hub, name, home, account), "archive_account": account,
             "routines": routines_unset(home),
             "codex_left": codex_left, "codex_titles": codex_titles,
@@ -811,6 +845,72 @@ def screen(limit=LIMIT, at=None):
 
 
 # ── the two renderings ────────────────────────────────────────────────────────
+
+# ── the app's Remote Control default, said once at every wake ─────────────────────
+# The app's own switch («Connect new sessions to Remote Control») is readable only by the
+# session's settings tool, so the hub reads it and passes it: `--rc-default on|off`. The
+# reading is kept on this machine (never synced) so a later wake still says what it was.
+# The user's own setting lives in the registry: {"remote_control": {"new_windows": "off",
+# "windows": ["<lane>"]}} — by default off, with only the Desk riding Remote Control.
+# ASSUMES: a wake with no flag and no kept reading has not read the switch, and says so.
+# Opposite: gate-wake-screen RC3 (the unread line), RC1 (On against off: the ⚠ line).
+RC_DEFAULT = {"new_windows": "off", "windows": ["Exocortex/Desk"]}
+
+
+def rc_setting():
+    """The user's Remote Control setting from registry.json, the default filled in."""
+    out = dict(RC_DEFAULT)
+    try:
+        path = os.environ.get("EXO_REGISTRY_JSON") or str(HERE.parent / "registry.json")
+        with io.open(path, encoding="utf-8") as fh:
+            block = (json.load(fh) or {}).get("remote_control")
+        if isinstance(block, dict):
+            word = str(block.get("new_windows") or "").strip().lower()
+            if word in ("on", "off"):
+                out["new_windows"] = word
+            if isinstance(block.get("windows"), list):
+                out["windows"] = [str(x) for x in block["windows"] if str(x).strip()]
+    except Exception:
+        pass
+    return out
+
+
+def rc_file(home, name):
+    return Path(home or Path.home()) / ".exocortex" / "wake" / ("remote-default-%s.json" % name)
+
+
+def rc_reading(home, name, given=None, at=None):
+    """(on|off|'', read_at) — the value the hub passed this wake (kept), else the kept one."""
+    path = rc_file(home, name)
+    if given in ("on", "off"):
+        when = datetime.fromtimestamp(at or time.time()).astimezone().isoformat(timespec="seconds")
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps({"value": given, "read_at": when}) + "\n", encoding="utf-8")
+        except OSError:
+            pass
+        return given, when
+    kept = read_json(path, {}) or {}
+    value = str(kept.get("value") or "")
+    return (value if value in ("on", "off") else ""), str(kept.get("read_at") or "")
+
+
+def rc_line(value, read_at, setting):
+    """ONE line: the app's switch against the user's own setting."""
+    want = setting["new_windows"]
+    rides = ", ".join(setting["windows"]) or "no window"
+    words = "only %s rides it" % rides if want == "off" else "every new window rides it"
+    if not value:
+        return ("Remote Control for new windows: not read this wake — the hub reads it with "
+                "get_settings and passes --rc-default (your setting: %s, %s)" % (want, words))
+    when = parse_when(read_at)
+    stamp = (" · read %s" % datetime.fromtimestamp(when).astimezone().strftime("%H:%M")) if when else ""
+    if value == want:
+        return "Remote Control for new windows: %s · as you set it (%s)%s" % (
+            value.title(), words, stamp)
+    return ("⚠ Remote Control for new windows: %s — your setting is %s (%s); say «set it %s» "
+            "and the hub switches it with set_setting%s" % (value.upper(), want, words, want, stamp))
+
 
 def receipts(d):
     stamp = datetime.fromtimestamp(d["at"]).astimezone()
@@ -903,6 +1003,8 @@ def text_lines(d):
     out = [receipts(d)]
     if second_line(d):
         out.append(second_line(d))                   # its own line, right under the receipts
+    if d.get("remote_control"):
+        out.append(d["remote_control"])              # the app's switch, one line
     if d.get("jobs"):
         out.extend(["", "LIVE"])
         out.extend(job_words(j) for j in d["jobs"])
@@ -1009,7 +1111,18 @@ def main(argv):
         ok = inject(target, limit) if target else False
         emit("front-door strip %s" % ("written into %s" % target if ok else "not written"))
         return 0 if ok else 1
-    d = screen(limit)
+    rc_given = None
+    if "--rc-default" in argv:
+        i = argv.index("--rc-default")
+        word = (argv[i + 1] if i + 1 < len(argv) else "").lower()
+        if word in ("true", "false"):
+            word = "on" if word == "true" else "off"
+        if word not in ("on", "off"):
+            emit("wake-screen: --rc-default takes on or off (get_settings: "
+                 "connect_new_sessions_to_remote_control)")
+            return 2
+        rc_given = word
+    d = screen(limit, rc_given=rc_given)
     if "--json" in argv:
         emit(json.dumps(d, indent=1, ensure_ascii=True, default=str))
         return 0

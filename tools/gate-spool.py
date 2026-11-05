@@ -365,6 +365,12 @@ def env_for(w, machine, tdir, self_id=SELF_ID):
                 "PYTHONIOENCODING": "utf-8", "CLAUDE_CODE_SESSION_ID": self_id,
                 "GIT_CONFIG_NOSYSTEM": "1"})
     env.pop("CLAUDE_CONFIG_DIR", None)
+    # ASSUMES: the fixture's login is the fixture's own. A gate run from inside a desktop
+    # window inherits that window's identity (entrypoint, account, email) — usage.py then
+    # refuses the fixture's CLI-only config as a desktop window's login. Opposite: the
+    # parent's variables are dropped here, so the world's .claude.json is the only road.
+    for key in ("CLAUDE_CODE_ENTRYPOINT", "CLAUDE_CODE_ACCOUNT_UUID", "CLAUDE_CODE_USER_EMAIL"):
+        env.pop(key, None)
     return env
 
 
@@ -818,6 +824,44 @@ def proofs(w, tool, tdir):
           err)
 
 
+def remote_proofs(w, tool, tdir):
+    """A pick over Remote Control: nothing asked, nothing started, the step handed for
+    the lane's HOME machine; a no-remote lane is never worked from the hub folder."""
+    meters(w, flag_pct=12)
+    code, out, _e = run(w, tool, tdir, ["Alpha/Mech", "--start", "--remote", "on"])
+    ls = lines_of(out)
+    check("RC1 a start picked over Remote Control is refused, and says so first",
+          code == 1 and ls and ls[0].startswith("START REFUSED — Alpha/Mech"), out[:300])
+    check("RC1b the refusal hands the step instead: the ribbon, the launch line, the chat box",
+          any(l.startswith("\u258c ") for l in ls) and any(l.startswith("cd \"") and " claude " in l
+                                                           for l in ls)
+          and any("CHAT BOX" in l for l in ls), out[:400])
+    check("RC1c no start object and no AFTER list (nothing to start)",
+          '"detach"' not in out and "START — only on the user's explicit word" not in out, out[-300:])
+    code, out, _e = run(w, tool, tdir, ["Alpha/Mech", "--ask", "--remote", "on"])
+    check("RC2 --ask over Remote Control asks nothing: no START MODE, the step for the home machine",
+          code == 0 and "START MODE" not in out and "came over Remote Control" in out
+          and "\u258c ORCA" in out, out[:400])
+    code, out, _e = run(w, tool, tdir, ["Alpha/Mech", "--start"])
+    check("RC3 a typed pick (no --remote) starts as before",
+          code == 0 and "START — only on the user's explicit word" in out
+          and "START REFUSED" not in out, out[:300])
+    code, out, _e = run(w, tool, tdir, ["Alpha/Mech", "--ask", "--remote", "on"], machine=WIN_M)
+    ls = lines_of(out)
+    tags = [t for _i, t, _b in fences(ls)]
+    check("RC4 asked on another machine, the step is the HOME machine's: its label, its shell, "
+          "its recorded folder", "\u258c ORCA" in out and "zsh" in tags
+          and any(l.startswith('cd "%s" && claude' % w.alpha) for l in ls), out[:500])
+    code, out, _e = run(w, tool, tdir, ["Delta/Main"])
+    check("RC5 a no-remote lane's step says it is never worked from the hub folder",
+          "never worked from the hub folder" in out, out[-300:])
+    code, out, _e = run(w, tool, tdir, ["Alpha/Mech"])
+    check("RC5b a lane with a remote carries no such line", "never worked from the hub folder"
+          not in out, out[-300:])
+    code, out, _e = run(w, tool, tdir, ["Alpha/Mech", "--remote", "maybe"])
+    check("RC6 --remote takes on or off only (a defect, exit 2)", code == 2)
+
+
 def captured_proofs(w, tool, tdir):
     """G7/G8 — a lane whose opener a button-up capture HEADED (its sitting s7 ran and was
     captured) is handed as s8: the NOTE line under the WHERE line, the s8 title, the prefixed
@@ -1111,6 +1155,7 @@ def main(argv):
         before = snapshot(w)
         tools_before = tools_snapshot(tdir)
         proofs(w, tool, tdir)
+        remote_proofs(w, tool, tdir)
         # the gate's own writes (meters, live sessions) happen between runs; the last run's
         # world is re-read after one more quiet run, so only the tool's writes could differ
         meters(w, flag_pct=12)

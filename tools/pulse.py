@@ -53,6 +53,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from exo_registry import registry, machine_names, machine_os           # noqa: E402
 from exo_paths import paths                                            # noqa: E402
+try:                                                                   # private lanes
+    from exo_privacy import private_lane_of                            # noqa: E402
+except Exception:                                                      # an older hub: nothing is private
+    def private_lane_of(**_kw):
+        return None
 
 _REG = [None]
 
@@ -911,17 +916,61 @@ def sense(name, roots, hub):
         out.append(row)
     out = offload_rows(out, hub, now)
     out.sort(key=lambda s: s["minutes_ago"])
+    out, withheld = withhold_private(out, hub, name)
     # the cursors of files seen in the last two days stay; the rest are dropped
     keep = dict((k, v) for k, v in cursors.items()
                 if isinstance(v, dict) and now - float(v.get("seen") or 0) < TURNS_FORGET_SECONDS)
     TURNS_STATE_ERROR[0] = _save_turn_state(state_file, keep)
     payload = {"machine": name, "when": datetime.now().astimezone().replace(microsecond=0).isoformat(),
                "live_minutes": LIVE_MINUTES, "sessions": out}
+    if withheld:
+        payload["private_sessions"] = withheld
     beat = _postman_beat(hub)
     if beat:
         payload["postman"] = beat
     io.open(hub / ("live-sessions-%s.json" % name), "w", encoding="utf-8").write(json.dumps(payload, ensure_ascii=False, indent=1) + "\n")
     return out
+
+
+def private_state_file(name):
+    """This machine's copy of the rows a private lane keeps off the brain:
+    ~/.exocortex/pulse/live-private-<machine>.json (or EXO_PULSE_STATE_DIR).
+    Machine-personal, like the cursors: it never syncs."""
+    return turns_state_file(name).parent / ("live-private-%s.json" % (
+        re.sub(r"[^A-Za-z0-9_.-]", "-", str(name or "")) or "unknown"))
+
+
+def withhold_private(rows, hub, name):
+    """(rows the brain may carry, how many were kept back).
+
+    A session of a lane the user marked private crosses as a COUNT only: no
+    title, no typed line, no cwd. Its full row is written beside the cursors,
+    on this machine only, for a local reader that needs it.
+    ASSUMES: a row's cwd is a real byte of where it ran, and its title names
+    its lane in the ACT grammar. Opposite: a private row with no cwd is still
+    caught by its title (gate-privacy C1b)."""
+    keep, held = [], []
+    for row in rows:
+        lane = None
+        try:
+            lane = private_lane_of(title=row.get("title") or "", cwd=row.get("cwd") or "",
+                                   arc=row.get("lane") or "", hub=hub)
+        except Exception:
+            lane = None
+        (held if lane else keep).append(row)
+    target = private_state_file(name)
+    try:
+        if held:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            tmp = target.with_suffix(".tmp")
+            tmp.write_text(json.dumps({"machine": name, "sessions": held},
+                                      ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+            os.replace(str(tmp), str(target))
+        elif target.exists():
+            target.unlink()
+    except OSError:
+        pass
+    return keep, len(held)
 
 
 def _postman_beat(hub):

@@ -64,6 +64,22 @@ for _parent in Path(__file__).resolve().parents:
         sys.path.append(str(_deps))
         break
 from exo_paths import paths            # noqa: E402  the one answer to "where is the record"
+try:                                   # a private lane's claim carries its NAME only
+    from exo_privacy import public_title    # noqa: E402
+except Exception:
+    def public_title(title, **_kw):
+        return title
+
+
+def shown_title(title, arc="", hub=None):
+    """The title claims.json may carry: a private lane's name only, else the title.
+    ASSUMES: holder matching compares two shown titles, so a private window's
+    refresh and release still find its own claim. Opposite: gate-privacy C5b."""
+    try:
+        import os as _os
+        return public_title(str(title or ""), arc=str(arc or ""), cwd=_os.getcwd(), hub=hub)
+    except Exception:
+        return title
 
 try:                                   # WHICH SESSION holds this pen
     sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -826,6 +842,8 @@ def main(argv):
     ap.add_argument("--session", metavar="ID")
     ap.add_argument("--title", metavar="TITLE")
     a = ap.parse_args(argv)
+    if a.title:
+        a.title = shown_title(a.title, hub=a.hub)
     if a.claim_file or a.release_file or a.release_files or a.files or a.sweep_files:
         if a.claim or a.release or a.list or a.sweep or a.take:
             print("STOP: file and lane verbs cannot be mixed")
@@ -840,6 +858,10 @@ def main(argv):
     if a.claim and name == "unknown":
         print(unnamed_line())
         return 1
+    if a.claim:
+        a.claim[1] = shown_title(a.claim[1], arc=a.claim[0], hub=folder)
+    if a.release:
+        a.release[1] = shown_title(a.release[1], arc=a.release[0], hub=folder)
     if a.claim:
         return cmd_claim(path, folder, name, a.claim[0], a.claim[1],
                          (a.mind or "").strip().upper() or None, a.take, a.reason, a.hours,

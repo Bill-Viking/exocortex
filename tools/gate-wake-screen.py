@@ -679,6 +679,40 @@ def night_line(w, extra=None):
     return out.decode("utf-8", "replace").strip()
 
 
+def case_rc(w):
+    """The app's Remote Control default, one line at every wake."""
+    start("RC", "the Remote Control line against the user's setting")
+    kept = w["home"] / ".exocortex" / "wake"
+    for f in kept.glob("remote-default-*.json") if kept.is_dir() else []:
+        f.unlink()
+    code, out, _t = screen(w)
+    check(code == 0 and "Remote Control for new windows: not read this wake" in out,
+          "RC3 no reading this wake and none kept: the line says it was not read")
+    code, out, _t = screen(w, "--rc-default", "off")
+    check(code == 0 and "Remote Control for new windows: Off · as you set it" in out
+          and "only Exocortex/Desk rides it" in out,
+          "RC2 off, as the default setting asks: one plain line, the Desk named")
+    code, out, _t = screen(w)
+    check("Remote Control for new windows: Off · as you set it" in out and "· read " in out,
+          "RC4 the next wake with no flag says the kept reading, with its time")
+    code, out, _t = screen(w, "--rc-default", "on")
+    check("⚠ Remote Control for new windows: ON — your setting is off" in out,
+          "RC1 the switch on against a setting of off: the ⚠ line and the move")
+    reg = json.load(io.open(str(w["hub"] / "registry.json"), encoding="utf-8"))
+    reg2 = dict(reg, remote_control={"new_windows": "on", "windows": []})
+    write_json(w["hub"] / "registry.json", reg2)
+    try:
+        code, out, _t = screen(w, "--rc-default", "on")
+        check("Remote Control for new windows: On · as you set it" in out,
+              "RC5 a user who chose on hears on as their own setting (the option is theirs)")
+    finally:
+        write_json(w["hub"] / "registry.json", reg)
+    code, _out, _t = screen(w, "--rc-default", "maybe")
+    check(code == 2, "RC6 --rc-default takes on or off only (exit 2)")
+    for f in kept.glob("remote-default-*.json") if kept.is_dir() else []:
+        f.unlink()
+
+
 def case_w9(w):
     start("W9", "the night line under the hygiene lines, always; the usage words on the receipts")
     if not (w["hub"] / "tools" / "night-check.py").is_file():
@@ -968,7 +1002,7 @@ def main(argv):
     print("  world: %s" % w["base"])
     try:
         for case in (case_w1, case_w2_w5, case_w3, case_w4, case_w6, case_w7, case_w8, case_w9,
-                     case_w10, case_w11, case_w12, case_w13, case_w14):
+                     case_w10, case_w11, case_w12, case_w13, case_w14, case_rc):
             try:
                 case(w)
             except Exception as exc:

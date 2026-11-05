@@ -54,6 +54,18 @@ If one assistant holds my memory, understands my projects, and controls access t
 
 So ownership has to mean something practical. I need to be able to take the record with me in a form another system can actually use. I need to be able to correct it and decide what belongs in it. Changing models should be a choice I can make while the work continues.
 
+## What the clerk cannot do yet
+
+Today Exocortex keeps everything I put into the record and reads it back when the next session begins. That is a clerk's job, and it does it well.
+
+It cannot yet do three things for itself: decide what is worth keeping, notice what is mistaken, and let go of what no longer matters. I do that by hand. Two routines help, one proposing stale notes to clear and one proposing lessons worth keeping, but neither makes the decision.
+
+I think that is the hard part, not the keeping. A staff of agents with perfect notes gives you a long horizon as a ledger, every event kept. A lifetime is not that. My working hypothesis, and it is only that, is that letting detail go is part of what makes the gist usable, so a record that only grows will serve its owner less well over time, not better.
+
+That question has its own research project, Continuum, which reads this record as a test bed and never owns it. Exocortex does not depend on it: plain files remain the floor, and anything that research adds must be something the system can lose and survive. Two rules already stand in the meantime. A remembered claim earns its place by surviving a test where it would be false. Nothing is removed without the owner's word.
+
+I decide what belongs in my record. That has to stay true when the machine begins to help.
+
 Keeping files on my own machine is part of that. It does not make every interaction local: when I use a hosted model, the material I send it goes to that provider. The choice of what to share remains part of the design. A private record is only useful if I can control how it is used.
 
 Exocortex is available under the Apache 2.0 licence. My personal record does not ship with it; someone else begins with their own. It is early software, built around coding agents, and its checks are further along on macOS than on Windows. There is work left to do.
@@ -62,4 +74,4 @@ But the direction is clear to me. I want my computer to meet me where I left off
 
 The operating system of my working life should belong to me. The companies should compete to provide its tools.
 
-The author also writes at [What We Make of Things](https://whatwemakeofthings.substack.com/), where this essay will appear.
+The author also writes at [What We Make of Things](https://whatwemakeofthings.substack.com/), where [this essay appeared](https://whatwemakeofthings.substack.com/p/the-soul-of-the-operating-system).

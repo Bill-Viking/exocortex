@@ -21,6 +21,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent / "tools"))
 from exo_registry import registry, lane_family, hub_folders             # noqa: E402
 from exo_paths import paths, LEGACY_SYNC_DIRNAME                        # noqa: E402
+try:                                                                    # private lanes
+    from exo_privacy import private_lane_of                             # noqa: E402
+except Exception:                                                       # an older hub: nothing is private
+    def private_lane_of(**_kw):
+        return None
 
 _REG_CACHE = [None]
 
@@ -488,6 +493,14 @@ def scan():
     for entry in sorted(PROJECTS_DIR.iterdir()):
         if entry.name.startswith(".") or not entry.is_dir():
             continue
+        # a lane the user marked private is not on the board.
+        # ASSUMES: the mark is the lane's own STATUS line or the registry, read
+        # by exo_privacy. Opposite: a cleared lane is drawn (gate-privacy C3b).
+        try:
+            if private_lane_of(cwd=str(entry), arc=entry.name):
+                continue
+        except Exception:
+            pass
         try:
             # One git call gives both the head author stamp (the ranking datum)
             # and the commit lines the hero card prints.
@@ -617,6 +630,11 @@ def read_sessions():
     for entry in raw["sessions"]:
         if not isinstance(entry, dict):
             continue
+        try:                                     # a private lane's window is not on the board
+            if private_lane_of(title=str(entry.get("title") or ""), cwd=str(entry.get("cwd") or "")):
+                continue
+        except Exception:
+            pass
         # Titles are data written elsewhere: they get escaped, never interpreted.
         tag, label = split_tag(str(entry.get("title") or ""))
         sessions.append({

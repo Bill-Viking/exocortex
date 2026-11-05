@@ -37,6 +37,30 @@ How it is built: [How Exocortex is built, how it compares, and where it goes](do
 - A private git remote for your own brain (never a public one)
 - A coding-agent session, such as Claude Code, Codex, or Grok
 
+## Where it runs
+
+Exocortex has no app of its own. It runs inside the coding agent you already
+use, wherever that agent runs:
+
+- **The Claude Code desktop app** (the Code tab of the Claude app) is the
+  easiest door. Open your hub folder as a project, start a session, and type
+  `hub`: the session reads the record and hands you each project's next step
+  in the chat. Each project gets its own session, opened on its own folder.
+- **The Codex app** works the same way. Open the hub folder, or a project's
+  folder, and start a thread; Codex reads its `AGENTS.md` and the same files,
+  under the same laws.
+- **The terminal** is the other door: `cd` into the folder and start
+  `claude` or `codex` there. Every hand-off Exocortex gives you carries both
+  doors, the text for the app's chat box and the one-line launch for your
+  shell.
+
+<!-- The three screenshots go here once captured; docs/screens/OWED.md says
+     what each must show and the scrub rule they pass before they ship:
+![The hub's wake in the Claude Code desktop app](docs/screens/hub-wake-claude-code.png)
+![A project thread in the Codex app](docs/screens/lane-thread-codex.png)
+![The tree page](docs/screens/tree-page.png)
+-->
+
 ## Install
 
 Clone the program, then run the installer from the cloned folder (command
